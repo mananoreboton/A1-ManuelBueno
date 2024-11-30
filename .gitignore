@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 
 .DS_Store
+kc_house_data.csv
+TODO.txt
