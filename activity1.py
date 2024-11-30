@@ -1,6 +1,6 @@
 # activity1.py
 
-from sklearn.datasets import fetch_california_housing
+import pandas as pd
 
 class Activity1:
     def __init__(self):
@@ -11,25 +11,26 @@ class Activity1:
 
     def select_and_analyze_dataset(self):
         """
-        Task 1: Fetch and analyze the California Housing dataset.
+        Task 1: Load and analyze the House Sales dataset from a local file.
         """
-        print("Fetching California Housing dataset...")
-        data = fetch_california_housing(as_frame=True)
-        df = data.frame
+        print("Loading House Sales Prediction dataset locally...")
+        dataset_path = "./kc_house_data.csv"  # Path to the CSV file (ensure this file exists in the project directory)
 
-        print("\nDataset Description:")
-        print(data.DESCR[:500])  # Display the first 500 characters of the dataset description
+        # Load the dataset into a DataFrame
+        df = pd.read_csv(dataset_path)
 
+        # Display the first few rows of the dataset
         print("\nDataset Preview (First 5 rows):")
         print(df.head())
 
+        # Display dataset information
         print("\nDataset Structure:")
         print(df.info())
 
+        # Display statistical summary
         print("\nStatistical Summary:")
         print(df.describe())
 
-        # Return the dataset as a DataFrame for further use
         return df
 
     def implement_neural_network_bp(self):
