@@ -28,12 +28,14 @@ class Activity1:
         if any(feature not in df.columns for feature in selected_features):
             raise ValueError("One or more selected features are missing from the dataset.")
 
-        return df[selected_features + [target_variable]]
+        # Return a copy of the selected columns
+        return df[selected_features + [target_variable]].copy()
 
     def transform_dates(self, df):
         """
         Subtask 1.2: Transform 'date' and 'yr_built' for better usability.
         """
+        df = df.copy()  # Ensure we are working with a copy
         df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
         df['days_since_yr_built'] = (datetime.now() - pd.to_datetime(df['yr_built'], format='%Y')).dt.days
         df.drop(columns=['yr_built'], inplace=True)
@@ -43,6 +45,7 @@ class Activity1:
         """
         Subtask 1.3: Normalize 'bedrooms', 'bathrooms', and 'grade' using MinMaxScaler.
         """
+        df = df.copy()  # Work on a copy to avoid slice warnings
         scaler = MinMaxScaler()
         df[['bedrooms', 'bathrooms', 'grade']] = scaler.fit_transform(df[['bedrooms', 'bathrooms', 'grade']])
         return df
@@ -67,8 +70,9 @@ class Activity1:
         """
         Subtask 1.6: One-hot encode categorical features: 'waterfront', 'view', 'condition'.
         """
+        df = df.copy()  # Ensure no slice warnings
         categorical_features = ['waterfront', 'view', 'condition']
-        encoder = OneHotEncoder(sparse_output=False, drop='first')  # Replaced 'sparse' with 'sparse_output'
+        encoder = OneHotEncoder(sparse_output=False, drop='first')
         encoded = encoder.fit_transform(df[categorical_features])
         encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(categorical_features))
         df = df.drop(columns=categorical_features).reset_index(drop=True)
