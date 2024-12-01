@@ -1,190 +1,117 @@
 # activity1.py
 
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
-from scipy.stats import zscore
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder, RobustScaler
+from sklearn.pipeline import Pipeline
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
+
+selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 
+    'floors', 'waterfront', 'view', 'condition', 'grade', 
+    'yr_built', 'lat', 'long']
 
 class Activity1:
     def __init__(self):
         """
-        Initialize the Activity1 class.
+        Initialize Activity1.
         """
-        print("Activity 1 library initialized.")
 
-    def select_features(self, df):
+        print("Activity 1 initialized.")
+
+    def read_csv_file(self, filepath="./kc_house_data.csv"):
         """
-        Subtask 1.1: Select relevant features for the analysis.
+        Subtask 1.1: Read the CSV file into a pandas DataFrame.
         """
-        selected_features = [
-            'date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 
-            'floors', 'waterfront', 'view', 'condition', 'grade', 
-            'yr_built', 'lat', 'long'
-        ]
-        target_variable = 'price'
+        print(f"Reading data from {filepath}...")
+        df = pd.read_csv(filepath)
+        return df, df['price']
 
-        if target_variable not in df.columns:
-            raise ValueError("The target variable 'price' is not in the dataset.")
-
-        if any(feature not in df.columns for feature in selected_features):
-            raise ValueError("One or more selected features are missing from the dataset.")
-
-        # Return a copy of the selected columns
-        return df[selected_features + [target_variable]].copy()
-
-    def transform_dates(self, df):
+    def truncate_dataframe(self, df, rows=20):
         """
-        Subtask 1.2: Transform 'date' and 'yr_built' for better usability.
+        Subtask 1.2: Limit the DataFrame to a specified number of rows.
+        """
+        return df.sample(n=rows, random_state=31).reset_index(drop=True)
+    
+    def filter_columns(self, df, required_columns = selected_features):
+        """
+        Subtask 1.3: Keep only specified columns in the DataFrame.
+        """
+        return df[required_columns]
+    
+    def drop_missing_values(self, df, columns = selected_features):
+        """
+        Subtask 1.4: Remove rows with missing values in the specified columns.
+        """
+        return df.dropna(subset=columns).reset_index(drop=True)
+
+    def drop_outliers(self, df, columns = []):
+        """
+        Subtask 1.5: Remove rows with outliers in the specified columns using the IQR method.
         """
         df = df.copy()
-        # We consider that separating the date values ​​is not convenient because they are 
-        # not expected to influence the price of the houses separately (e.g. Seasonal variations).
-        df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
-        df['days_since_start'] = (df['date'] - df['date'].min()).dt.days
+        for col in columns:
+            Q1 = df[col].quantile(0.25)
+            Q3 = df[col].quantile(0.75)
+            IQR = Q3 - Q1
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+            df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+        return df.reset_index(drop=True)
 
-        # Normalize 'days_since_start' and 'yr_built'
-        scaler = MinMaxScaler()
-        df[['days_since_start', 'yr_built']] = scaler.fit_transform(df[['days_since_start', 'yr_built']])
-        # Drop the original 'date' column
-        df.drop(columns=['date'], inplace=True)
-        return df
+    def create_column_transformer(self):
+        """
+        Subtask 1.6: Create a ColumnTransformer with preprocessing pipelines for each column.
+        """
+        # Pipelines for individual columns
+        pipelines = {
+            'date': Pipeline([
+                ('convert_date_to_days', ConvertDateToDays(date_column='date')),
+            ]),
+            'bedrooms': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'bathrooms': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'sqft_living': Pipeline([
+                ('scale', StandardScaler()),
+            ]),
+            'sqft_lot': Pipeline([
+                ('scale', RobustScaler()),
+            ]),
+            'floors': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'waterfront': Pipeline([
+                ('encode', OneHotEncoder(drop='first', sparse_output=False)),  # One-hot encode binary
+            ]),
+            'view': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'condition': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'grade': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'yr_built': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'lat': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'long': Pipeline([
+                ('scale', MinMaxScaler()),
+            ])
+        }
 
-    def transform_small_integers(self, df):
-        """
-        Subtask 1.3: Normalize 'bedrooms', 'bathrooms', and 'grade' using MinMaxScaler.
-        """
-        df = df.copy()
-        scaler = MinMaxScaler()
-        df[['bedrooms', 'bathrooms', 'grade']] = scaler.fit_transform(df[['bedrooms', 'bathrooms', 'grade']])
-        return df
-
-    def transform_small_floats(self, df):
-        """
-        Subtask 1.4: Normalize 'floors' (small float values) using MinMaxScaler.
-        """
-        scaler = MinMaxScaler()
-        df[['floors']] = scaler.fit_transform(df[['floors']])
-        return df
-
-    def transform_large_values(self, df):
-        """
-        Subtask 1.5: Standardize 'sqft_living' and 'sqft_lot' using StandardScaler.
-        """
-        scaler = StandardScaler()
-        df[['sqft_living', 'sqft_lot']] = scaler.fit_transform(df[['sqft_living', 'sqft_lot']])
-        return df
-
-    def transform_categorical_values(self, df):
-        """
-        Subtask 1.6: One-hot encode categorical features: 'waterfront', 'view', 'condition'.
-        """
-        df = df.copy()
-        categorical_features = ['waterfront', 'view', 'condition']
-        encoder = OneHotEncoder(sparse_output=False, drop='first')
-        encoded = encoder.fit_transform(df[categorical_features])
-        encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(categorical_features))
-        df = df.drop(columns=categorical_features).reset_index(drop=True)
-        df = pd.concat([df, encoded_df], axis=1)
-        return df
-
-    def normalize_coordinates(self, df):
-        """
-        Subtask 1.7: Normalize 'lat' and 'long' using MinMaxScaler.
-        """
-        df = df.copy()
-
-        # Normalize 'lat' and 'long'
-        scaler = MinMaxScaler()
-        df[['lat', 'long']] = scaler.fit_transform(df[['lat', 'long']])
-        return df
-    
-    def reduce_sample_size(self, df, sample_size=2000, r_state=31):
-        """
-        Subtask 1.8: Reduce the sample size to the specified number of rows (random selection).
-        """
-        df = df.sample(n=sample_size, random_state=r_state).reset_index(drop=True)
-        print(f"Reduced dataset to {len(df)} rows.")
-        return df
-    
-    def check_missing_values(self, df):
-        """
-        Subtask 1.9: Check for missing values in the dataset.
-        """
-        missing = df.isnull().sum()
-        print("\nMissing values per column:")
-        print(missing[missing > 0])
-        
-        # Drop rows with missing values
-        if missing.any():
-            df = df.dropna().reset_index(drop=True)
-            print(f"Dataset size after removing missing values: {len(df)} rows.")
-        return df
-    
-    def detect_outliers(self, df, threshold=3.0):
-        """
-        Subtask 1.10: Detect and optionally handle outliers using z-scores.
-        """
-
-        numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
-        z_scores = zscore(df[numeric_cols])
-        outliers = (abs(z_scores) > threshold).any(axis=1)
-
-        print(f"Found {outliers.sum()} outliers out of {len(df)} rows.")
-        
-        df = df[~outliers].reset_index(drop=True)
-        print(f"Dataset size after removing outliers: {len(df)} rows.")
-        return df
-    
-    def split_dataset(self, df):
-        """
-        Subtask 1.11: Split the dataset into training/validation and test sets (80%-20%).
-        """
-        train_val, test = train_test_split(df, test_size=0.2, random_state=31)
-        print(f"Training/validation set size: {len(train_val)} rows.")
-        print(f"Test set size: {len(test)} rows.")
-        return train_val, test
-    
-    def show_histograms(self, df):
-        """
-        Show histograms for each column in the DataFrame.
-        """
-        numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
-        df = df[numeric_cols]  # Focus on numeric columns
-
-        print("\nGenerating histograms for each numeric column...")
-        for col in numeric_cols:
-            plt.figure(figsize=(6, 4))
-            plt.hist(df[col], bins=30, alpha=0.7, color='blue', edgecolor='black')
-            plt.title(f"Histogram for {col}")
-            plt.xlabel(col)
-            plt.ylabel("Frequency")
-            plt.grid(axis='y', alpha=0.75)
-            plt.show()
-    
-    def preprocess_dataset(self, df):
-        """
-        Preprocess the dataset by applying all subtasks.
-        """
-        print("Preprocessing dataset...")
-        df = self.check_missing_values(df)  # Subtask 1.9
-        df = self.reduce_sample_size(df)  # Subtask 1.8
-        df = self.select_features(df)  # Subtask 1.1
-
-        # Show histograms for training/validation set
-        # self.show_histograms(df)  # Show data to detect if they have a Normal distribution 
-        print(df.describe())
-
-        df = self.transform_dates(df)  # Subtask 1.2
-        df = self.transform_small_integers(df)  # Subtask 1.3
-        df = self.transform_small_floats(df)  # Subtask 1.4
-        df = self.transform_large_values(df)  # Subtask 1.5
-        df = self.transform_categorical_values(df)  # Subtask 1.6
-        df = self.normalize_coordinates(df)  # Subtask 1.7
-        df = self.detect_outliers(df)  # Subtask 1.10
-        train_val, test = self.split_dataset(df)  # Subtask 1.11
-        print("Dataset preprocessing complete.")
-        return train_val, test
+        # Combine all pipelines into a ColumnTransformer
+        transformer = ColumnTransformer(
+            transformers=[(col, pipelines[col], [col]) for col in pipelines],
+            remainder='drop'  # Drop columns not explicitly specified
+        )
+        return transformer
 
     def select_and_analyze_dataset(self):
         """
@@ -192,31 +119,34 @@ class Activity1:
         """
         pd.set_option('display.max_columns', None)
 
-        print("Loading House Sales Prediction dataset locally...")
-        dataset_path = "./kc_house_data.csv"  # Path to the CSV file (ensure this file exists in the project directory)
+        # Subtask 1.1: Read the CSV file
+        df, Y = self.read_csv_file()
 
-        # Load the dataset into a DataFrame
-        df = pd.read_csv(dataset_path)
+        # Subtask 1.2: Truncate DataFrame to 2000 rows
+        df = self.truncate_dataframe(df)
 
-        # print("\nDataset Preview (First 5 rows):")
-        # print(df.head())
-        # print("\nDataset Structure:")
-        # print(df.info())
+        # Subtask 1.3: Filter columns
+        df = self.filter_columns(df)
 
-        # Preprocess the dataset
-        preprocessed_df = self.preprocess_dataset(df)
+        # Subtask 1.4: Drop rows with missing values
+        df = self.drop_missing_values(df)
 
-        print("\nPreprocessed Dataset Preview (First 5 rows):")
-        # print(preprocessed_df.head())
+        # Subtask 1.5: Drop outliers
+        df = self.drop_outliers(df)
 
-        return preprocessed_df
+        # Subtask 1.6: Create ColumnTransformer
+        transformer = self.create_column_transformer()
+
+        train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
+        # transformed_data = transformer.fit_transform(df)
+
+        return transformer, train_data, test_data
 
     def implement_neural_network_bp(self):
         """
         Task 2: Implement a neural network with back-propagation manually.
         """
         print("Implementing Neural Network with Back-Propagation (BP)... (To be implemented)")
-
     def implement_multiple_linear_regression(self):
         """
         Task 3: Implement Multiple Linear Regression using sklearn.
@@ -236,15 +166,43 @@ class Activity1:
         print("Starting Activity 1 tasks...")
         
         # Task 1: Dataset Selection and Analysis
-        dataset = self.select_and_analyze_dataset()
+        transformer, train_data, test_data = self.select_and_analyze_dataset()
 
-        # Additional tasks can be called here
+        transformer.fit(train_data)
+        s = transformer.transform(train_data)
+
+        print(s)
+
+        # Additional tasks
         self.implement_neural_network_bp()
         self.implement_multiple_linear_regression()
         self.implement_neural_network_bp_f()
 
         print("All tasks executed. Add functionality to individual methods as needed.")
 
+class ConvertDateToDays(BaseEstimator, TransformerMixin):
+    """
+    Custom transformer to convert a date column into the number of days
+    since the earliest date in the dataset.
+    """
+    def __init__(self, date_column='date'):
+        self.date_column = date_column
+        self.min_date = None
+
+    def fit(self, X, y=None):
+        # Store the minimum date during fit
+        X = X.copy()
+        self.min_date = pd.to_datetime(X[self.date_column], format='%Y%m%dT000000').min()
+        return self
+
+    def transform(self, X):
+        # Convert dates to days since the minimum date
+        X = X.copy()
+        X[self.date_column] = pd.to_datetime(X[self.date_column], format='%Y%m%dT000000')
+        X[f'days_since_{self.date_column}'] = (X[self.date_column] - self.min_date).dt.days
+        X.drop(columns=[self.date_column], inplace=True)  # Drop the original date column
+        return X
+    
 # If this script is executed directly, demonstrate the class functionality.
 if __name__ == "__main__":
     activity1 = Activity1()
