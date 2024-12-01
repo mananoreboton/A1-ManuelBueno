@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
 from scipy.stats import zscore
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 class Activity1:
     def __init__(self):
@@ -144,6 +145,23 @@ class Activity1:
         print(f"Test set size: {len(test)} rows.")
         return train_val, test
     
+    def show_histograms(self, df):
+        """
+        Show histograms for each column in the DataFrame.
+        """
+        numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
+        df = df[numeric_cols]  # Focus on numeric columns
+
+        print("\nGenerating histograms for each numeric column...")
+        for col in numeric_cols:
+            plt.figure(figsize=(6, 4))
+            plt.hist(df[col], bins=30, alpha=0.7, color='blue', edgecolor='black')
+            plt.title(f"Histogram for {col}")
+            plt.xlabel(col)
+            plt.ylabel("Frequency")
+            plt.grid(axis='y', alpha=0.75)
+            plt.show()
+    
     def preprocess_dataset(self, df):
         """
         Preprocess the dataset by applying all subtasks.
@@ -152,6 +170,11 @@ class Activity1:
         df = self.check_missing_values(df)  # Subtask 1.9
         df = self.reduce_sample_size(df)  # Subtask 1.8
         df = self.select_features(df)  # Subtask 1.1
+
+        # Show histograms for training/validation set
+        # self.show_histograms(df)  # Show data to detect if they have a Normal distribution 
+        print(df.describe())
+
         df = self.transform_dates(df)  # Subtask 1.2
         df = self.transform_small_integers(df)  # Subtask 1.3
         df = self.transform_small_floats(df)  # Subtask 1.4
@@ -175,17 +198,16 @@ class Activity1:
         # Load the dataset into a DataFrame
         df = pd.read_csv(dataset_path)
 
-        print("\nDataset Preview (First 5 rows):")
-        print(df.head())
-
-        print("\nDataset Structure:")
-        print(df.info())
+        # print("\nDataset Preview (First 5 rows):")
+        # print(df.head())
+        # print("\nDataset Structure:")
+        # print(df.info())
 
         # Preprocess the dataset
         preprocessed_df = self.preprocess_dataset(df)
 
         print("\nPreprocessed Dataset Preview (First 5 rows):")
-        print(preprocessed_df.head())
+        # print(preprocessed_df.head())
 
         return preprocessed_df
 
