@@ -41,10 +41,10 @@ class Activity1:
 
     def transform_small_integers(self, df):
         """
-        Subtask 1.3: Normalize 'bedrooms' and 'bathrooms' using MinMaxScaler.
+        Subtask 1.3: Normalize 'bedrooms', 'bathrooms', and 'grade' using MinMaxScaler.
         """
         scaler = MinMaxScaler()
-        df[['bedrooms', 'bathrooms']] = scaler.fit_transform(df[['bedrooms', 'bathrooms']])
+        df[['bedrooms', 'bathrooms', 'grade']] = scaler.fit_transform(df[['bedrooms', 'bathrooms', 'grade']])
         return df
 
     def transform_small_floats(self, df):
@@ -65,10 +65,10 @@ class Activity1:
 
     def transform_categorical_values(self, df):
         """
-        Subtask 1.6: One-hot encode categorical features: 'waterfront', 'view', 'condition', 'grade'.
+        Subtask 1.6: One-hot encode categorical features: 'waterfront', 'view', 'condition'.
         """
-        categorical_features = ['waterfront', 'view', 'condition', 'grade']
-        encoder = OneHotEncoder(sparse=False, drop='first')  # Drop first to avoid multicollinearity
+        categorical_features = ['waterfront', 'view', 'condition']
+        encoder = OneHotEncoder(sparse_output=False, drop='first')  # Replaced 'sparse' with 'sparse_output'
         encoded = encoder.fit_transform(df[categorical_features])
         encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(categorical_features))
         df = df.drop(columns=categorical_features).reset_index(drop=True)
