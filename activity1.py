@@ -99,19 +99,34 @@ class Activity1:
         df[['lat', 'long']] = scaler.fit_transform(df[['lat', 'long']])
         return df
     
-    def reduce_sample_size(self, df, sample_size=2000):
+    def reduce_sample_size(self, df, sample_size=2000, r_state=31):
         """
         Subtask 1.8: Reduce the sample size to the specified number of rows (random selection).
         """
-        df = df.sample(n=sample_size, random_state=31).reset_index(drop=True)
+        df = df.sample(n=sample_size, random_state=r_state).reset_index(drop=True)
         print(f"Reduced dataset to {len(df)} rows.")
         return df
-
+    
+    def check_missing_values(self, df):
+        """
+        Subtask 1.9: Check for missing values in the dataset.
+        """
+        missing = df.isnull().sum()
+        print("\nMissing values per column:")
+        print(missing[missing > 0])
+        
+        # Drop rows with missing values
+        if missing.any():
+            df = df.dropna().reset_index(drop=True)
+            print(f"Dataset size after removing missing values: {len(df)} rows.")
+        return df
+    
     def preprocess_dataset(self, df):
         """
         Preprocess the dataset by applying all subtasks.
         """
         print("Preprocessing dataset...")
+        df = self.check_missing_values(df)  # Subtask 1.9
         df = self.reduce_sample_size(df)  # Subtask 1.8
         df = self.select_features(df)  # Subtask 1.1
         df = self.transform_dates(df)  # Subtask 1.2
