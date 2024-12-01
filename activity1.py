@@ -3,6 +3,7 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
 from scipy.stats import zscore
+from sklearn.model_selection import train_test_split
 
 class Activity1:
     def __init__(self):
@@ -134,6 +135,15 @@ class Activity1:
         print(f"Dataset size after removing outliers: {len(df)} rows.")
         return df
     
+    def split_dataset(self, df):
+        """
+        Subtask 1.11: Split the dataset into training/validation and test sets (80%-20%).
+        """
+        train_val, test = train_test_split(df, test_size=0.2, random_state=31)
+        print(f"Training/validation set size: {len(train_val)} rows.")
+        print(f"Test set size: {len(test)} rows.")
+        return train_val, test
+    
     def preprocess_dataset(self, df):
         """
         Preprocess the dataset by applying all subtasks.
@@ -149,8 +159,9 @@ class Activity1:
         df = self.transform_categorical_values(df)  # Subtask 1.6
         df = self.normalize_coordinates(df)  # Subtask 1.7
         df = self.detect_outliers(df)  # Subtask 1.10
+        train_val, test = self.split_dataset(df)  # Subtask 1.11
         print("Dataset preprocessing complete.")
-        return df
+        return train_val, test
 
     def select_and_analyze_dataset(self):
         """
