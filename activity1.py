@@ -2,7 +2,7 @@
 
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
-from datetime import datetime
+from scipy.stats import zscore
 
 class Activity1:
     def __init__(self):
@@ -85,8 +85,6 @@ class Activity1:
         df = df.drop(columns=categorical_features).reset_index(drop=True)
         df = pd.concat([df, encoded_df], axis=1)
         return df
-    
-    from sklearn.preprocessing import MinMaxScaler
 
     def normalize_coordinates(self, df):
         """
@@ -121,6 +119,21 @@ class Activity1:
             print(f"Dataset size after removing missing values: {len(df)} rows.")
         return df
     
+    def detect_outliers(self, df, threshold=3.0):
+        """
+        Subtask 1.10: Detect and optionally handle outliers using z-scores.
+        """
+
+        numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
+        z_scores = zscore(df[numeric_cols])
+        outliers = (abs(z_scores) > threshold).any(axis=1)
+
+        print(f"Found {outliers.sum()} outliers out of {len(df)} rows.")
+        
+        df = df[~outliers].reset_index(drop=True)
+        print(f"Dataset size after removing outliers: {len(df)} rows.")
+        return df
+    
     def preprocess_dataset(self, df):
         """
         Preprocess the dataset by applying all subtasks.
@@ -135,6 +148,7 @@ class Activity1:
         df = self.transform_large_values(df)  # Subtask 1.5
         df = self.transform_categorical_values(df)  # Subtask 1.6
         df = self.normalize_coordinates(df)  # Subtask 1.7
+        df = self.detect_outliers(df)  # Subtask 1.10
         print("Dataset preprocessing complete.")
         return df
 
