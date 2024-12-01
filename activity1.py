@@ -36,15 +36,14 @@ class Activity1:
         Subtask 1.2: Transform 'date' and 'yr_built' for better usability.
         """
         df = df.copy()  # Ensure no slice warnings
+        # We consider that separating the date values ​​is not convenient because they are 
+        # not expected to influence the price of the houses separately.
         df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
 
-        # Use the earliest date in the dataset as the baseline
-        min_date = df['date'].min()
-        df['days_since_yr_built'] = (pd.to_datetime(min_date) - pd.to_datetime(df['yr_built'], format='%Y')).dt.days
-
-        df.drop(columns=['yr_built'], inplace=True)  # Drop the original yr_built column
+        # Normalize 'yr_built' using MinMaxScaler
+        scaler = MinMaxScaler()
+        df[['yr_built']] = scaler.fit_transform(df[['yr_built']])
         return df
-
 
     def transform_small_integers(self, df):
         """
