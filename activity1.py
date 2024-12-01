@@ -35,7 +35,7 @@ class Activity1:
         """
         Subtask 1.2: Transform 'date' and 'yr_built' for better usability.
         """
-        df = df.copy()  # Ensure no slice warnings
+        df = df.copy()
         # We consider that separating the date values ​​is not convenient because they are 
         # not expected to influence the price of the houses separately (e.g. Seasonal variations).
         df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
@@ -52,7 +52,7 @@ class Activity1:
         """
         Subtask 1.3: Normalize 'bedrooms', 'bathrooms', and 'grade' using MinMaxScaler.
         """
-        df = df.copy()  # Work on a copy to avoid slice warnings
+        df = df.copy()
         scaler = MinMaxScaler()
         df[['bedrooms', 'bathrooms', 'grade']] = scaler.fit_transform(df[['bedrooms', 'bathrooms', 'grade']])
         return df
@@ -77,7 +77,7 @@ class Activity1:
         """
         Subtask 1.6: One-hot encode categorical features: 'waterfront', 'view', 'condition'.
         """
-        df = df.copy()  # Ensure no slice warnings
+        df = df.copy()
         categorical_features = ['waterfront', 'view', 'condition']
         encoder = OneHotEncoder(sparse_output=False, drop='first')
         encoded = encoder.fit_transform(df[categorical_features])
@@ -92,12 +92,19 @@ class Activity1:
         """
         Subtask 1.7: Normalize 'lat' and 'long' using MinMaxScaler.
         """
-        df = df.copy()  # Avoid slice warnings
+        df = df.copy()
 
         # Normalize 'lat' and 'long'
         scaler = MinMaxScaler()
         df[['lat', 'long']] = scaler.fit_transform(df[['lat', 'long']])
-
+        return df
+    
+    def reduce_sample_size(self, df, sample_size=2000):
+        """
+        Subtask 1.8: Reduce the sample size to the specified number of rows (random selection).
+        """
+        df = df.sample(n=sample_size, random_state=31).reset_index(drop=True)
+        print(f"Reduced dataset to {len(df)} rows.")
         return df
 
     def preprocess_dataset(self, df):
@@ -105,13 +112,14 @@ class Activity1:
         Preprocess the dataset by applying all subtasks.
         """
         print("Preprocessing dataset...")
+        df = self.reduce_sample_size(df)  # Subtask 1.8
         df = self.select_features(df)  # Subtask 1.1
         df = self.transform_dates(df)  # Subtask 1.2
         df = self.transform_small_integers(df)  # Subtask 1.3
         df = self.transform_small_floats(df)  # Subtask 1.4
         df = self.transform_large_values(df)  # Subtask 1.5
         df = self.transform_categorical_values(df)  # Subtask 1.6
-        df = self.normalize_coordinates(df)  # Subtask 1.7 (New)
+        df = self.normalize_coordinates(df)  # Subtask 1.7
         print("Dataset preprocessing complete.")
         return df
 
