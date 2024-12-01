@@ -37,12 +37,15 @@ class Activity1:
         """
         df = df.copy()  # Ensure no slice warnings
         # We consider that separating the date values ​​is not convenient because they are 
-        # not expected to influence the price of the houses separately.
+        # not expected to influence the price of the houses separately (e.g. Seasonal variations).
         df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
+        df['days_since_start'] = (df['date'] - df['date'].min()).dt.days
 
-        # Normalize 'yr_built' using MinMaxScaler
+        # Normalize 'days_since_start' and 'yr_built'
         scaler = MinMaxScaler()
-        df[['yr_built']] = scaler.fit_transform(df[['yr_built']])
+        df[['days_since_start', 'yr_built']] = scaler.fit_transform(df[['days_since_start', 'yr_built']])
+        # Drop the original 'date' column
+        df.drop(columns=['date'], inplace=True)
         return df
 
     def transform_small_integers(self, df):
