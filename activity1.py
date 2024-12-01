@@ -35,11 +35,16 @@ class Activity1:
         """
         Subtask 1.2: Transform 'date' and 'yr_built' for better usability.
         """
-        df = df.copy()  # Ensure we are working with a copy
+        df = df.copy()  # Ensure no slice warnings
         df['date'] = pd.to_datetime(df['date'], format='%Y%m%dT000000')
-        df['days_since_yr_built'] = (datetime.now() - pd.to_datetime(df['yr_built'], format='%Y')).dt.days
-        df.drop(columns=['yr_built'], inplace=True)
+
+        # Use the earliest date in the dataset as the baseline
+        min_date = df['date'].min()
+        df['days_since_yr_built'] = (pd.to_datetime(min_date) - pd.to_datetime(df['yr_built'], format='%Y')).dt.days
+
+        df.drop(columns=['yr_built'], inplace=True)  # Drop the original yr_built column
         return df
+
 
     def transform_small_integers(self, df):
         """
@@ -97,6 +102,8 @@ class Activity1:
         """
         Task 1: Load, preprocess, and analyze the House Sales dataset.
         """
+        pd.set_option('display.max_columns', None)
+
         print("Loading House Sales Prediction dataset locally...")
         dataset_path = "./kc_house_data.csv"  # Path to the CSV file (ensure this file exists in the project directory)
 
