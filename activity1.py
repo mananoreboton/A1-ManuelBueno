@@ -85,6 +85,20 @@ class Activity1:
         df = df.drop(columns=categorical_features).reset_index(drop=True)
         df = pd.concat([df, encoded_df], axis=1)
         return df
+    
+    from sklearn.preprocessing import MinMaxScaler
+
+    def normalize_coordinates(self, df):
+        """
+        Subtask 1.7: Normalize 'lat' and 'long' using MinMaxScaler.
+        """
+        df = df.copy()  # Avoid slice warnings
+
+        # Normalize 'lat' and 'long'
+        scaler = MinMaxScaler()
+        df[['lat', 'long']] = scaler.fit_transform(df[['lat', 'long']])
+
+        return df
 
     def preprocess_dataset(self, df):
         """
@@ -97,6 +111,7 @@ class Activity1:
         df = self.transform_small_floats(df)  # Subtask 1.4
         df = self.transform_large_values(df)  # Subtask 1.5
         df = self.transform_categorical_values(df)  # Subtask 1.6
+        df = self.normalize_coordinates(df)  # Subtask 1.7 (New)
         print("Dataset preprocessing complete.")
         return df
 
