@@ -24,7 +24,7 @@ class PreprocessData:
         """
         Main function to execute all subtasks of select and analyze dataset.
         """
-        print("Starting execute all subtasks of select and analyze dataset...")
+        print("Executing all subtasks of select and analyze dataset...")
 
         # Task 1: Dataset Selection and Analysis
         transformer, train_array_transformed, test_array_transformed, Y = self.select_and_analyze_dataset()
