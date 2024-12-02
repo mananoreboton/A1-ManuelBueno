@@ -83,7 +83,7 @@ class Activity1:
         """
         Subtask 1.6: Split data into training and test sets.
         """
-        train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
+        train_data, test_data = train_test_split(df, test_size=0.02, random_state=31)
         return train_data, test_data
 
     def create_column_transformer(self):
@@ -164,11 +164,11 @@ class Activity1:
         df = self.truncate_dataframe(df)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
-        df = self.drop_outliers(df)
+        # df = self.drop_outliers(df)
         train_data, test_data = self.split_data(df)
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
-        train_data_transformed, test_data_transformed = self.transform_data(train_data, test_data)
+        train_data_transformed, test_data_transformed = self.transform_data(transformer, train_data, test_data)
         return transformer, train_data_transformed, test_data_transformed
 
     def implement_neural_network_bp(self):
