@@ -28,9 +28,9 @@ class Activity1:
         print("Starting Activity 1 tasks...")
 
         # Task 1: Dataset Selection and Analysis
-        transformer, train_array_transformed, test_array_transformed = self.select_and_analyze_dataset()
+        transformer, train_array_transformed, test_array_transformed, Y = self.select_and_analyze_dataset()
 
-        self.show_data(transformer.get_feature_names_out(), test_array_transformed)
+        # self.show_data(transformer.get_feature_names_out(), test_array_transformed, Y)
 
         # Additional tasks
         self.implement_neural_network_bp()
@@ -173,7 +173,7 @@ class Activity1:
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
         train_array_transformed, test_array_transformed = self.transform_data(transformer, train_data, test_data)
-        return transformer, train_array_transformed, test_array_transformed
+        return transformer, train_array_transformed, test_array_transformed, Y
 
     def implement_neural_network_bp(self):
         """
@@ -192,15 +192,17 @@ class Activity1:
         """
         print("Implementing Neural Network with Back-Propagation (BP-F)... (To be implemented)")
 
-    def show_data(self, feature_names, array):
+    def show_data(self, feature_names, array, Y):
         dfc = pd.DataFrame(array, columns=feature_names)
+        dfc['price'] = Y
 
         pd.set_option('display.max_columns', None)
-        # print(dfc.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
-        # columns_to_plot = ['yr_built', 'lat', 'long', 'price']
-        # df_subset = test_data[columns_to_plot]
-        # scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
-        # plt.show()
+        print(feature_names)
+        print(dfc.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
+        columns_to_plot = ['condition__condition_5', 'grade__grade', 'yr_built__yr_built', 'lat__lat', 'long__long', 'price']
+        df_subset = dfc[columns_to_plot]
+        scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
+        plt.show()
 
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):
