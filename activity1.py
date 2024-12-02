@@ -7,9 +7,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
 
-selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 
-    'floors', 'waterfront', 'view', 'condition', 'grade', 
-    'yr_built', 'lat', 'long']
+selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
+                     'floors', 'waterfront', 'view', 'condition', 'grade',
+                     'yr_built', 'lat', 'long']
 
 class Activity1:
     def __init__(self):
@@ -18,6 +18,22 @@ class Activity1:
         """
 
         print("Activity 1 initialized.")
+
+    def main(self):
+        """
+        Main function to execute all tasks.
+        """
+        print("Starting Activity 1 tasks...")
+
+        # Task 1: Dataset Selection and Analysis
+        transformer, train_data, test_data = self.select_and_analyze_dataset()
+
+        # Additional tasks
+        self.implement_neural_network_bp()
+        self.implement_multiple_linear_regression()
+        self.implement_neural_network_bp_f()
+
+        print("All tasks executed. Add functionality to individual methods as needed.")
 
     def read_csv_file(self, filepath="./kc_house_data.csv"):
         """
@@ -33,16 +49,20 @@ class Activity1:
         """
         return df.sample(n=rows, random_state=31).reset_index(drop=True)
     
-    def filter_columns(self, df, required_columns = selected_features):
+    def filter_features(self, df, required_features=None):
         """
         Subtask 1.3: Keep only specified columns in the DataFrame.
         """
-        return df[required_columns]
+        if required_features is None:
+            required_features = selected_features
+        return df[required_features]
     
-    def drop_missing_values(self, df, columns = selected_features):
+    def drop_missing_values(self, df, columns=None):
         """
         Subtask 1.4: Remove rows with missing values in the specified columns.
         """
+        if columns is None:
+            columns = selected_features
         return df.dropna(subset=columns).reset_index(drop=True)
 
     def drop_outliers(self, df, columns = []):
@@ -59,9 +79,16 @@ class Activity1:
             df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
         return df.reset_index(drop=True)
 
+    def split_data(self, df):
+        """
+        Subtask 1.6: Split data into training and test sets.
+        """
+        train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
+        return train_data, test_data
+
     def create_column_transformer(self):
         """
-        Subtask 1.6: Create a ColumnTransformer with preprocessing pipelines for each column.
+        Subtask 1.7: Create a ColumnTransformer with preprocessing pipelines for each column.
         """
         # Pipelines for individual columns
         pipelines = {
@@ -92,7 +119,7 @@ class Activity1:
             'condition': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
-            'grade': Pipeline([
+              'grade': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
             'yr_built': Pipeline([
@@ -113,34 +140,36 @@ class Activity1:
         )
         return transformer
 
+    def fit_training_data(self, transformer, train_data):
+        """
+        Subtask 1.8: Adjust features in train data set
+        """
+        transformer.fit(train_data)
+        return transformer, train_data
+
+    def transform_data(self, transformer, train_data, test_data):
+        """
+        Subtask 1.9: Apply transformations to features
+        """
+        train_data_transformed = transformer.transform(train_data)
+        test_data_transformed = transformer.transform(test_data)
+        return train_data_transformed, test_data_transformed
+
+
     def select_and_analyze_dataset(self):
         """
         Task 1: Load, preprocess, and analyze the House Sales dataset.
         """
-        pd.set_option('display.max_columns', None)
-
-        # Subtask 1.1: Read the CSV file
         df, Y = self.read_csv_file()
-
-        # Subtask 1.2: Truncate DataFrame to 2000 rows
         df = self.truncate_dataframe(df)
-
-        # Subtask 1.3: Filter columns
-        df = self.filter_columns(df)
-
-        # Subtask 1.4: Drop rows with missing values
+        df = self.filter_features(df)
         df = self.drop_missing_values(df)
-
-        # Subtask 1.5: Drop outliers
         df = self.drop_outliers(df)
-
-        # Subtask 1.6: Create ColumnTransformer
+        train_data, test_data = self.split_data(df)
         transformer = self.create_column_transformer()
-
-        train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
-        # transformed_data = transformer.fit_transform(df)
-
-        return transformer, train_data, test_data
+        transformer, train_data = self.fit_training_data(transformer, train_data)
+        train_data_transformed, test_data_transformed = self.transform_data(train_data, test_data)
+        return transformer, train_data_transformed, test_data_transformed
 
     def implement_neural_network_bp(self):
         """
@@ -158,27 +187,6 @@ class Activity1:
         Task 4: Implement a neural network with back-propagation using a library.
         """
         print("Implementing Neural Network with Back-Propagation (BP-F)... (To be implemented)")
-
-    def main(self):
-        """
-        Main function to execute all tasks.
-        """
-        print("Starting Activity 1 tasks...")
-        
-        # Task 1: Dataset Selection and Analysis
-        transformer, train_data, test_data = self.select_and_analyze_dataset()
-
-        transformer.fit(train_data)
-        s = transformer.transform(train_data)
-
-        print(s)
-
-        # Additional tasks
-        self.implement_neural_network_bp()
-        self.implement_multiple_linear_regression()
-        self.implement_neural_network_bp_f()
-
-        print("All tasks executed. Add functionality to individual methods as needed.")
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):
     """
