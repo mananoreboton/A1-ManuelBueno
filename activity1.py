@@ -43,7 +43,7 @@ class Activity1:
         df = pd.read_csv(filepath)
         return df, df['price']
 
-    def truncate_dataframe(self, df, rows=20):
+    def truncate_dataframe(self, df, rows=2000):
         """
         Subtask 1.2: Limit the DataFrame to a specified number of rows.
         """
@@ -108,16 +108,16 @@ class Activity1:
                 ('scale', RobustScaler()),
             ]),
             'floors': Pipeline([
-                ('scale', MinMaxScaler()),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
             ]),
             'waterfront': Pipeline([
-                ('encode', OneHotEncoder(drop='first', sparse_output=False)),  # One-hot encode binary
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
             ]),
             'view': Pipeline([
-                ('scale', MinMaxScaler()),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
             ]),
             'condition': Pipeline([
-                ('scale', MinMaxScaler()),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
             ]),
               'grade': Pipeline([
                 ('scale', MinMaxScaler()),
