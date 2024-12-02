@@ -169,7 +169,7 @@ class Activity1:
         pd.set_option('display.max_columns', None)
         # print(df.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
         print(df['view'].unique())
-        columns_to_plot = ['floors', 'waterfront', 'view', 'condition', 'grade', 'price']
+        columns_to_plot = ['yr_built', 'lat', 'long', 'price']
         df_subset = df[columns_to_plot]
         scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
         plt.show()
