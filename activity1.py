@@ -108,16 +108,16 @@ class Activity1:
                 ('scale', RobustScaler()),
             ]),
             'floors': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
             ]),
             'waterfront': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
             ]),
             'view': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
             ]),
             'condition': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False)),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
             ]),
               'grade': Pipeline([
                 ('scale', MinMaxScaler()),
