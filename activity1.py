@@ -6,10 +6,12 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder, R
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from pandas.plotting import scatter_matrix
 
 selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
                      'floors', 'waterfront', 'view', 'condition', 'grade',
-                     'yr_built', 'lat', 'long']
+                     'yr_built', 'lat', 'long', 'price']
 
 class Activity1:
     def __init__(self):
@@ -26,7 +28,7 @@ class Activity1:
         print("Starting Activity 1 tasks...")
 
         # Task 1: Dataset Selection and Analysis
-        transformer, train_data, test_data = self.select_and_analyze_dataset()
+        self.select_and_analyze_dataset()
 
         # Additional tasks
         self.implement_neural_network_bp()
@@ -43,7 +45,7 @@ class Activity1:
         df = pd.read_csv(filepath)
         return df, df['price']
 
-    def truncate_dataframe(self, df, rows=20):
+    def truncate_dataframe(self, df, rows=2000):
         """
         Subtask 1.2: Limit the DataFrame to a specified number of rows.
         """
@@ -164,12 +166,20 @@ class Activity1:
         df = self.truncate_dataframe(df)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
-        df = self.drop_outliers(df)
-        train_data, test_data = self.split_data(df)
-        transformer = self.create_column_transformer()
-        transformer, train_data = self.fit_training_data(transformer, train_data)
-        train_data_transformed, test_data_transformed = self.transform_data(train_data, test_data)
-        return transformer, train_data_transformed, test_data_transformed
+        pd.set_option('display.max_columns', None)
+        # print(df.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
+        print(df['view'].unique())
+        columns_to_plot = ['floors', 'waterfront', 'view', 'condition', 'grade', 'price']
+        df_subset = df[columns_to_plot]
+        scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
+        plt.show()
+
+        # df = self.drop_outliers(df)
+        # train_data, test_data = self.split_data(df)
+        # transformer = self.create_column_transformer()
+        # transformer, train_data = self.fit_training_data(transformer, train_data)
+        # train_data_transformed, test_data_transformed = self.transform_data(train_data, test_data)
+        # return transformer, train_data_transformed, test_data_transformed
 
     def implement_neural_network_bp(self):
         """
