@@ -13,31 +13,23 @@ selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
                      'floors', 'waterfront', 'view', 'condition', 'grade',
                      'yr_built', 'lat', 'long', 'price']
 
-class Activity1:
+class PreprocessData:
     def __init__(self):
         """
-        Initialize Activity1.
+        Initialize PreprocessData.
         """
-
-        print("Activity 1 initialized.")
+        print("PreprocessData initialized.")
 
     def main(self):
         """
-        Main function to execute all tasks.
+        Main function to execute all subtasks of select and analyze dataset.
         """
-        print("Starting Activity 1 tasks...")
+        print("Starting execute all subtasks of select and analyze dataset...")
 
         # Task 1: Dataset Selection and Analysis
         transformer, train_array_transformed, test_array_transformed, Y = self.select_and_analyze_dataset()
 
         # self.show_data(transformer.get_feature_names_out(), test_array_transformed, Y)
-
-        # Additional tasks
-        self.implement_neural_network_bp()
-        self.implement_multiple_linear_regression()
-        self.implement_neural_network_bp_f()
-
-        print("All tasks executed. Add functionality to individual methods as needed.")
 
     def read_csv_file(self, filepath="./kc_house_data.csv"):
         """
@@ -69,10 +61,12 @@ class Activity1:
             columns = selected_features
         return df.dropna(subset=columns).reset_index(drop=True)
 
-    def drop_outliers(self, df, columns = []):
+    def drop_outliers(self, df, columns=None):
         """
         Subtask 1.5: Remove rows with outliers in the specified columns using the IQR method.
         """
+        if columns is None:
+            columns = []
         df = df.copy()
         for col in columns:
             Q1 = df[col].quantile(0.25)
@@ -164,7 +158,7 @@ class Activity1:
         """
         Task 1: Load, preprocess, and analyze the House Sales dataset.
         """
-        df, Y = self.read_csv_file()
+        df, y = self.read_csv_file()
         df = self.truncate_dataframe(df)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
@@ -173,28 +167,12 @@ class Activity1:
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
         train_array_transformed, test_array_transformed = self.transform_data(transformer, train_data, test_data)
-        return transformer, train_array_transformed, test_array_transformed, Y
+        print("Executed all subtasks of select and analyze dataset...")
+        return transformer, train_array_transformed, test_array_transformed, y
 
-    def implement_neural_network_bp(self):
-        """
-        Task 2: Implement a neural network with back-propagation manually.
-        """
-        print("Implementing Neural Network with Back-Propagation (BP)... (To be implemented)")
-    def implement_multiple_linear_regression(self):
-        """
-        Task 3: Implement Multiple Linear Regression using sklearn.
-        """
-        print("Implementing Multiple Linear Regression (MLR-F)... (To be implemented)")
-
-    def implement_neural_network_bp_f(self):
-        """
-        Task 4: Implement a neural network with back-propagation using a library.
-        """
-        print("Implementing Neural Network with Back-Propagation (BP-F)... (To be implemented)")
-
-    def show_data(self, feature_names, array, Y):
+    def show_data(self, feature_names, array, y):
         dfc = pd.DataFrame(array, columns=feature_names)
-        dfc['price'] = Y
+        dfc['price'] = y
 
         pd.set_option('display.max_columns', None)
         print(feature_names)
@@ -220,18 +198,18 @@ class ConvertDateToDays(BaseEstimator, TransformerMixin):
         self.min_date = pd.to_datetime(X[self.date_column], format='%Y%m%dT000000').min()
         return self
 
-    def transform(self, X):
+    def transform(self, x_to_transform):
         # Convert dates to days since the minimum date
-        X = X.copy()
-        X[self.date_column] = pd.to_datetime(X[self.date_column], format='%Y%m%dT000000')
-        X[f'days_since_{self.date_column}'] = (X[self.date_column] - self.min_date).dt.days
-        X.drop(columns=[self.date_column], inplace=True)  # Drop the original date column
-        return X
+        x = x_to_transform.copy()
+        x[self.date_column] = pd.to_datetime(x[self.date_column], format='%Y%m%dT000000')
+        x[f'days_since_{self.date_column}'] = (x[self.date_column] - self.min_date).dt.days
+        x.drop(columns=[self.date_column], inplace=True)  # Drop the original date column
+        return x
 
     def get_feature_names_out(self, input_features=None):
         return [f"{self.date_column}_publication"]
     
 # If this script is executed directly, demonstrate the class functionality.
 if __name__ == "__main__":
-    activity1 = Activity1()
+    activity1 = PreprocessData()
     activity1.main()
