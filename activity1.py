@@ -28,7 +28,9 @@ class Activity1:
         print("Starting Activity 1 tasks...")
 
         # Task 1: Dataset Selection and Analysis
-        transformer, train_data, test_data = self.select_and_analyze_dataset()
+        transformer, train_array_transformed, test_array_transformed = self.select_and_analyze_dataset()
+
+        self.show_data(transformer.get_feature_names_out(), test_array_transformed)
 
         # Additional tasks
         self.implement_neural_network_bp()
@@ -85,7 +87,7 @@ class Activity1:
         """
         Subtask 1.6: Split data into training and test sets.
         """
-        train_data, test_data = train_test_split(df, test_size=0.02, random_state=31)
+        train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
         return train_data, test_data
 
     def create_column_transformer(self):
@@ -170,17 +172,8 @@ class Activity1:
         train_data, test_data = self.split_data(df)
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
-        train_data_transformed, test_data_transformed = self.transform_data(transformer, train_data, test_data)
-
-        pd.set_option('display.max_columns', None)
-        # print(df.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
-        print(df['view'].unique())
-        columns_to_plot = ['yr_built', 'lat', 'long', 'price']
-        df_subset = df[columns_to_plot]
-        scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
-        plt.show()
-
-        return transformer, train_data_transformed, test_data_transformed
+        train_array_transformed, test_array_transformed = self.transform_data(transformer, train_data, test_data)
+        return transformer, train_array_transformed, test_array_transformed
 
     def implement_neural_network_bp(self):
         """
@@ -198,6 +191,17 @@ class Activity1:
         Task 4: Implement a neural network with back-propagation using a library.
         """
         print("Implementing Neural Network with Back-Propagation (BP-F)... (To be implemented)")
+
+    def show_data(self, feature_names, array):
+        dfc = pd.DataFrame(array, columns=feature_names)
+
+        pd.set_option('display.max_columns', None)
+        # print(dfc.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
+        # columns_to_plot = ['yr_built', 'lat', 'long', 'price']
+        # df_subset = test_data[columns_to_plot]
+        # scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
+        # plt.show()
+
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):
     """
@@ -221,6 +225,9 @@ class ConvertDateToDays(BaseEstimator, TransformerMixin):
         X[f'days_since_{self.date_column}'] = (X[self.date_column] - self.min_date).dt.days
         X.drop(columns=[self.date_column], inplace=True)  # Drop the original date column
         return X
+
+    def get_feature_names_out(self, input_features=None):
+        return [f"{self.date_column}_publication"]
     
 # If this script is executed directly, demonstrate the class functionality.
 if __name__ == "__main__":
