@@ -8,6 +8,9 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from pandas.plotting import scatter_matrix
+import pandas as pd
+import joblib
+import os
 
 selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
                      'floors', 'waterfront', 'view', 'condition', 'grade',
@@ -37,7 +40,7 @@ class PreprocessData:
         """
         print(f"Reading data from {filepath}...")
         df = pd.read_csv(filepath)
-        return df, df['price']
+        return df
 
     def truncate_dataframe(self, df, rows=2000):
         """
@@ -153,12 +156,36 @@ class PreprocessData:
         test_data_transformed = transformer.transform(test_data)
         return train_data_transformed, test_data_transformed
 
+    def save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer, output_dir='./'):
+        """
+         Subtask 1.9: Saves transformed train and test matrices as files
+        """
+
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Convert matrices to DataFrames if they are not already
+        train_df = pd.DataFrame(transformed_train_matrix)
+        test_df = pd.DataFrame(transformed_test_matrix)
+
+        # Save the matrices as CSV
+        train_path = os.path.join(output_dir, "transformed_train_matrix.csv")
+        test_path = os.path.join(output_dir, "transformed_test_matrix.csv")
+        train_df.to_csv(train_path, index=False)
+        test_df.to_csv(test_path, index=False)
+
+        # Save the transformer as a .pkl file
+        transformer_path = os.path.join(output_dir, "transformer.pkl")
+        joblib.dump(transformer, transformer_path)
+
+        print(f"Train matrix saved to {train_path}")
+        print(f"Test matrix saved to {test_path}")
+        print(f"Transformer saved to {transformer_path}")
 
     def select_and_analyze_dataset(self):
         """
         Task 1: Load, preprocess, and analyze the House Sales dataset.
         """
-        df, y = self.read_csv_file()
+        df = self.read_csv_file()
         df = self.truncate_dataframe(df)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
@@ -166,18 +193,18 @@ class PreprocessData:
         train_data, test_data = self.split_data(df)
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
-        train_array_transformed, test_array_transformed = self.transform_data(transformer, train_data, test_data)
+        transformed_train_matrix, transformed_test_matrix = self.transform_data(transformer, train_data, test_data)
+        self.save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer)
         print("Executed all subtasks of select and analyze dataset...")
-        return transformer, train_array_transformed, test_array_transformed, y
 
-    def show_data(self, feature_names, array, y):
+    def show_data(self, feature_names, array, columns_to_plot=None):
+        if columns_to_plot is None:
+            columns_to_plot = ['condition__condition_5', 'grade__grade', 'yr_built__yr_built', 'lat__lat', 'long__long','price']
         dfc = pd.DataFrame(array, columns=feature_names)
-        dfc['price'] = y
 
         pd.set_option('display.max_columns', None)
         print(feature_names)
         print(dfc.describe(percentiles=[.1, .2, .3, .6, .7, .8, .9, .999], include='all'))
-        columns_to_plot = ['condition__condition_5', 'grade__grade', 'yr_built__yr_built', 'lat__lat', 'long__long', 'price']
         df_subset = dfc[columns_to_plot]
         scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
         plt.show()
@@ -211,5 +238,5 @@ class ConvertDateToDays(BaseEstimator, TransformerMixin):
     
 # If this script is executed directly, demonstrate the class functionality.
 if __name__ == "__main__":
-    activity1 = PreprocessData()
-    activity1.main()
+    preprocessData = PreprocessData()
+    preprocessData.main()

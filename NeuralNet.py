@@ -1,12 +1,12 @@
 import numpy as np
 
-"""
-Task 2: Implement a neural network with back-propagation manually.
-"""
+from PreprocessData import PreprocessData
+
+
 class NeuralNet:
     def __init__(self, L, n, epochs=None, learning_rate=None, momentum=None, fact=None, validation_split=None):
         """
-        Initialize PreprocessData.
+        Task 2: Implement a neural network with back-propagation manually.
         """
 
         self.L = L  # Number of layers
@@ -17,7 +17,7 @@ class NeuralNet:
         self.fact = fact  # Activation function
         self.validation_split = validation_split  # Percentage of validation set
 
-        # Subtask 1: Initialize all weights and thresholds randomly
+        # Online BP algorithm: 2- Initialize all weights and thresholds randomly
         self.w = [np.random.randn(self.n[i], self.n[i + 1]) for i in range(L - 1)]
         self.theta = [np.random.randn(self.n[i + 1]) for i in range(L - 1)]
         self.d_w_prev = [np.zeros((self.n[i], self.n[i + 1])) for i in range(L - 1)]
@@ -29,16 +29,23 @@ class NeuralNet:
         """
         Subtask 2.1: Use training and validation data to fit neural network
         """
-        # TODO: Scale input and/or output patterns, if needed
-        # TODO: To initialize all weights and thresholds randomly
+
+        # Online BP algorithm: 1- Scale input and/or output patterns, if needed
+        X_train, X_val = None
+        y_train, y_val = None
+
         # TODO: For epoch = 1 To num epochs
-        # TODO: For pat = 1 To num training patterns
-        # TODO: Choose a random pattern (xμ, zμ) of the training set
-        # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
-        # TODO: Back−propagate the error for this pattern
-        # TODO: Update the weights and thresholds
-        # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
-        # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
+        for epoch in range(self.epochs):
+
+            # TODO: For pat = 1 To num training patterns
+            indices = np.random.permutation(len(X_train))
+
+            # TODO: Choose a random pattern (xμ, zμ) of the training set
+            # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
+            # TODO: Back−propagate the error for this pattern
+            # TODO: Update the weights and thresholds
+            # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
+            # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
         pass
 
     def predict(self, X):
@@ -65,6 +72,8 @@ class NeuralNet:
 
 
 if __name__ == "__main__":
+    preprocessData = PreprocessData()
+    preprocessData.select_and_analyze_dataset()
 
     nn = NeuralNet(4, [4, 9, 5, 1])
     nn.main()
