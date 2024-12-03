@@ -88,12 +88,14 @@ def readFile(filepath='./data/transformed_train_matrix.csv'):
         # Skip the header if it exists
         next(reader, None)
         for row in reader:
+            # print([value for value in row])
             train_matrix.append([float(value) for value in row])
-
+    return train_matrix
 
 if __name__ == "__main__":
     preprocessData = PreprocessData()
     preprocessData.select_and_analyze_dataset()
+    x = readFile()
 
     nn = NeuralNet(4, [4, 9, 5, 1], 100)
     nn.main()

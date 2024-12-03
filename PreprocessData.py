@@ -97,7 +97,7 @@ class PreprocessData:
         """
         # Pipelines for individual columns
         pipelines = {
-            'date': make_pipeline(ConvertDateToDays(date_column='date'), MinMaxScaler()),
+            'date': make_pipeline(ConvertDateToDays(date_column='date')),
             'bedrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
