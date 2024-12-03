@@ -156,7 +156,7 @@ class PreprocessData:
         test_data_transformed = transformer.transform(test_data)
         return train_data_transformed, test_data_transformed
 
-    def save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer, output_dir='./'):
+    def save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer, output_dir='./data'):
         """
          Subtask 1.9: Saves transformed train and test matrices as files
         """
@@ -194,7 +194,7 @@ class PreprocessData:
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
         transformed_train_matrix, transformed_test_matrix = self.transform_data(transformer, train_data, test_data)
-        self.save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer)
+        self.save_transformed_data(transformed_train_matrix, transformed_test_matrix, transformer)
         print("Executed all subtasks of select and analyze dataset...")
 
     def show_data(self, feature_names, array, columns_to_plot=None):
