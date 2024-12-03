@@ -163,9 +163,9 @@ class PreprocessData:
 
         os.makedirs(output_dir, exist_ok=True)
 
-        # Convert matrices to DataFrames if they are not already
-        train_df = pd.DataFrame(transformed_train_matrix)
-        test_df = pd.DataFrame(transformed_test_matrix)
+        column_names = transformer.get_feature_names_out()
+        train_df = pd.DataFrame(transformed_train_matrix, columns=column_names)
+        test_df = pd.DataFrame(transformed_test_matrix, columns=column_names)
 
         # Save the matrices as CSV
         train_path = os.path.join(output_dir, "transformed_train_matrix.csv")

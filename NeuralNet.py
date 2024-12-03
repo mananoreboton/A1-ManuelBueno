@@ -1,5 +1,5 @@
-import numpy as np
-
+import csv
+import random
 from PreprocessData import PreprocessData
 
 
@@ -18,10 +18,18 @@ class NeuralNet:
         self.validation_split = validation_split  # Percentage of validation set
 
         # Online BP algorithm: 2- Initialize all weights and thresholds randomly
-        self.w = [np.random.randn(self.n[i], self.n[i + 1]) for i in range(L - 1)]
-        self.theta = [np.random.randn(self.n[i + 1]) for i in range(L - 1)]
-        self.d_w_prev = [np.zeros((self.n[i], self.n[i + 1])) for i in range(L - 1)]
-        self.d_theta_prev = [np.zeros(self.n[i + 1]) for i in range(L - 1)]
+        self.w = []
+        for i in range(L - 1):
+            self.w.append([[random.uniform(-1.0, 1.0) for _ in range(self.n[i + 1])] for _ in range(self.n[i])])
+        self.theta = []
+        for i in range(L - 1):
+            self.theta.append([random.uniform(-1.0, 1.0) for _ in range(self.n[i + 1])])
+        self.d_w_prev = []
+        for i in range(L - 1):
+            self.d_w_prev.append([[0.0 for _ in range(self.n[i + 1])] for _ in range(self.n[i])])
+        self.d_theta_prev = []
+        for i in range(L - 1):
+            self.d_theta_prev.append([0.0 for _ in range(self.n[i + 1])])
 
         print("NeuralNet initialized.")
 
@@ -31,14 +39,17 @@ class NeuralNet:
         """
 
         # Online BP algorithm: 1- Scale input and/or output patterns, if needed
-        X_train, X_val = None
-        y_train, y_val = None
+        X_train, X_val = [[0], [0]]
+        y_train, y_val = [[0], [0]]
 
         # TODO: For epoch = 1 To num epochs
         for epoch in range(self.epochs):
 
             # TODO: For pat = 1 To num training patterns
-            indices = np.random.permutation(len(X_train))
+            indices = list(range(len(X_train)))
+            random.shuffle(indices)
+            for i in indices:
+                pass
 
             # TODO: Choose a random pattern (xμ, zμ) of the training set
             # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
@@ -70,10 +81,19 @@ class NeuralNet:
         # Task 2: Implementation of BP
         self.fit()
 
+def readFile(filepath='./data/transformed_train_matrix.csv'):
+    train_matrix = []
+    with open(filepath, 'r') as file:
+        reader = csv.reader(file)
+        # Skip the header if it exists
+        next(reader, None)
+        for row in reader:
+            train_matrix.append([float(value) for value in row])
+
 
 if __name__ == "__main__":
     preprocessData = PreprocessData()
     preprocessData.select_and_analyze_dataset()
 
-    nn = NeuralNet(4, [4, 9, 5, 1])
+    nn = NeuralNet(4, [4, 9, 5, 1], 100)
     nn.main()
