@@ -78,14 +78,21 @@ class NeuralNet:
             self.training_errors.append(train_error)
             self.validation_errors.append(val_error)
 
-            print(f'Epoc {epoch + 1}/{self.n_epochs}, Train Error: {train_error}, Validation Error: {val_error}')
+            # print(f'Epoc {epoch + 1}/{self.n_epochs}, Train Error: {train_error}, Validation Error: {val_error}')
 
     def predict(self, X):
         """
         Subtask 2.2: Use test data to predict labels
         """
-        # TODO: Feed−forward all test patterns
-        pass
+        # Online BP algorithm: L14 - Feed−forward all test pattern
+        num_samples = X.shape[0]
+        outputs = []
+        for i in range(num_samples):
+            x = X[i].reshape(-1, 1)
+            self.feedforward(x)
+            output = self.xi[-1].flatten()
+            outputs.append(output)
+        return np.array(outputs)
 
     def oss_epochs(self):
         """
@@ -152,14 +159,22 @@ class NeuralNet:
             raise ValueError('Unsupported activation function name')
         return activation, derivative
 
-    def main(self, X_prediction, y_prediction):
+    def main(self, X_train, y_train, X_prediction, y_prediction):
         """
         Main function to execute all subtasks of Neural Network with Back-Propagation (BP).
         """
         print("Executing all subtasks of Implementation of BP...")
 
         # Task 2: Implementation of BP
-        self.fit(X_prediction, y_prediction)
+        self.fit(X_train, y_train)
+
+        predictions = self.predict(X_prediction)
+        for pred, y_pred in zip(predictions, y_prediction):
+            print(f"Prediction: {pred}, Expected Prediction: {y_pred}")
+
+        training_errors, validation_errors = nn.oss_epochs()
+        for train_err, val_err in zip(training_errors, validation_errors):
+            print(f"Training Error: {train_err}, Validation Error: {val_err}")
 
 def readFile(filepath='./data/transformed_train_matrix.csv'):
     data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
@@ -171,6 +186,9 @@ if __name__ == "__main__":
     data_train = readFile()
     X_in = data_train[:, :-1]
     y_in = data_train[:, -1]
+    data_test = readFile('./data/transformed_test_matrix.csv')
+    X_in_prediction = data_test[:, :-1]
+    y_in_prediction = data_test[:, -1]
 
     nn = NeuralNet(
         L=3,
@@ -181,4 +199,4 @@ if __name__ == "__main__":
         activation_function='tanh',
         validation_split=0.2
     )
-    nn.main(X_in, y_in)
+    nn.main(X_in, y_in, X_in_prediction, y_in_prediction)
