@@ -64,12 +64,12 @@ class NeuralNet:
                 idx = np.random.randint(num_train_samples)
                 x_mu = X_train_shuffled[idx].reshape(-1, 1)
                 z_mu = y_train_shuffled[idx].reshape(-1, 1)
-
-                # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
-                # TODO: Back−propagate the error for this pattern
-                # TODO: Update the weights and thresholds
-                # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
-                # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
+                # Online BP algorithm: L6 - Feed−forward propagation of pattern xμ to obtain the output o(xμ)
+                self.feedforward(x_mu)
+                # Online BP algorithm: L7 - Back−propagate the error for this pattern
+                self.backpropagate(z_mu)
+                # Online BP algorithm: L8 - Update the weights and thresholds
+                self.update_weights()
                 print(z_mu)
 
     def predict(self, X):
@@ -84,6 +84,21 @@ class NeuralNet:
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
         return np.array(self.training_errors), np.array(self.validation_errors)
+
+    def feedforward(self, x):
+        self.xi[0] = x
+        for l in range(1, self.L):
+            self.h[l] = np.dot(self.w[l], self.xi[l - 1]) - self.theta[l]
+            self.xi[l] = self.activation_function(self.h[l])
+
+    def backpropagate(self, z):
+        l = self.L - 1
+        self.delta[l] = (self.xi[l] - z) * self.activation_derivative(self.h[l])
+        for l in range(self.L - 2, 0, -1):
+            self.delta[l] = np.dot(self.w[l + 1].T, self.delta[l + 1]) * self.activation_derivative(self.h[l])
+        for l in range(1, self.L):
+            self.d_w[l] = -self.learning_rate * np.dot(self.delta[l], self.xi[l - 1].T) + self.momentum * self.d_w_prev[l]
+            self.d_theta[l] = self.learning_rate * self.delta[l] + self.momentum * self.d_theta_prev[l]
 
     def update_weights(self):
         for l in range(1, self.L):
