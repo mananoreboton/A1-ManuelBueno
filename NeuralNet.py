@@ -72,7 +72,7 @@ class NeuralNet:
         """
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
-        # TODO: Return the evolution of the training and validation errors for each epoch
+        return np.array(self.training_errors), np.array(self.validation_errors)
 
     def get_activation_function(self, name):
         if name == 'sigmoid':
@@ -129,3 +129,4 @@ if __name__ == "__main__":
         activation_function='tanh',
         validation_split=0.2
     )
+    nn.oss_epochs()
