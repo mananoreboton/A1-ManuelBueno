@@ -197,7 +197,7 @@ class PreprocessData:
         df = self.truncate_dataframe(df)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
-        # df = self.drop_outliers(df)
+        df = self.drop_outliers(df)
         train_data, test_data = self.split_data(df)
         transformer = self.create_column_transformer()
         transformer, train_data = self.fit_training_data(transformer, train_data)
