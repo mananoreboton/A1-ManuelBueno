@@ -59,15 +59,18 @@ class NeuralNet:
 
             # Online BP algorithm: L4 - For pat = 1 To num training patterns
             for pat in range(num_train_samples):
-                pass
 
-                # TODO: Choose a random pattern (xμ, zμ) of the training set
+                # Online BP algorithm: L5 - Choose a random pattern (xμ, zμ) of the training set
+                idx = np.random.randint(num_train_samples)
+                x_mu = X_train_shuffled[idx].reshape(-1, 1)
+                z_mu = y_train_shuffled[idx].reshape(-1, 1)
+
                 # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
                 # TODO: Back−propagate the error for this pattern
                 # TODO: Update the weights and thresholds
                 # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
                 # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
-            pass
+                print(z_mu)
 
     def predict(self, X):
         """
