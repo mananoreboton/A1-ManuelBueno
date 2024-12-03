@@ -1,9 +1,8 @@
 # activity1.py
 
-import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder, RobustScaler
-from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
@@ -30,7 +29,7 @@ class PreprocessData:
         print("Executing all subtasks of select and analyze dataset...")
 
         # Task 1: Dataset Selection and Analysis
-        transformer, train_array_transformed, test_array_transformed, Y = self.select_and_analyze_dataset()
+        self.select_and_analyze_dataset()
 
         # self.show_data(transformer.get_feature_names_out(), test_array_transformed, Y)
 
@@ -46,6 +45,7 @@ class PreprocessData:
         """
         Subtask 1.2: Limit the DataFrame to a specified number of rows.
         """
+        print(f"Truncating data randomly to {rows} rows")
         return df.sample(n=rows, random_state=31).reset_index(drop=True)
     
     def filter_features(self, df, required_features=None):
@@ -54,6 +54,7 @@ class PreprocessData:
         """
         if required_features is None:
             required_features = selected_features
+        print(f"Selecting this columns from the data: {selected_features}")
         return df[required_features]
     
     def drop_missing_values(self, df, columns=None):
@@ -62,6 +63,7 @@ class PreprocessData:
         """
         if columns is None:
             columns = selected_features
+        print(f"Removing missing values from columns: {selected_features}")
         return df.dropna(subset=columns).reset_index(drop=True)
 
     def drop_outliers(self, df, columns=None):
@@ -78,6 +80,7 @@ class PreprocessData:
             lower_bound = Q1 - 1.5 * IQR
             upper_bound = Q3 + 1.5 * IQR
             df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+        print(f"Removing outliers values from columns: {columns}")
         return df.reset_index(drop=True)
 
     def split_data(self, df):
@@ -85,6 +88,7 @@ class PreprocessData:
         Subtask 1.6: Split data into training and test sets.
         """
         train_data, test_data = train_test_split(df, test_size=0.2, random_state=31)
+        print(f"Splitting data: train_data ({len(train_data.index)}) and test_data ({len(test_data.index)})")
         return train_data, test_data
 
     def create_column_transformer(self):
@@ -93,9 +97,7 @@ class PreprocessData:
         """
         # Pipelines for individual columns
         pipelines = {
-            'date': Pipeline([
-                ('convert_date_to_days', ConvertDateToDays(date_column='date')),
-            ]),
+            'date': make_pipeline(ConvertDateToDays(date_column='date'), MinMaxScaler()),
             'bedrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
@@ -103,10 +105,10 @@ class PreprocessData:
                 ('scale', MinMaxScaler()),
             ]),
             'sqft_living': Pipeline([
-                ('scale', StandardScaler()),
+                ('scale', MinMaxScaler()),
             ]),
             'sqft_lot': Pipeline([
-                ('scale', RobustScaler()),
+                ('scale', MinMaxScaler()),
             ]),
             'floors': Pipeline([
                 ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
@@ -131,6 +133,9 @@ class PreprocessData:
             ]),
             'long': Pipeline([
                 ('scale', MinMaxScaler()),
+            ]),
+            'price': Pipeline([
+                ('scale', MinMaxScaler()),
             ])
         }
 
@@ -139,6 +144,7 @@ class PreprocessData:
             transformers=[(col, pipelines[col], [col]) for col in pipelines],
             remainder='drop'  # Drop columns not explicitly specified
         )
+        print(f"Creating ColumnTransformer")
         return transformer
 
     def fit_training_data(self, transformer, train_data):
@@ -146,6 +152,7 @@ class PreprocessData:
         Subtask 1.8: Adjust features in train data set
         """
         transformer.fit(train_data)
+        print(f"Fit train_data")
         return transformer, train_data
 
     def transform_data(self, transformer, train_data, test_data):
@@ -154,6 +161,7 @@ class PreprocessData:
         """
         train_data_transformed = transformer.transform(train_data)
         test_data_transformed = transformer.transform(test_data)
+        print(f"Transforming train_data and test_data")
         return train_data_transformed, test_data_transformed
 
     def save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer, output_dir='./data'):
