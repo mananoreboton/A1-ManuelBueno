@@ -18,17 +18,17 @@ class NeuralNet:
         for l in range(1, self.L):
             self.w.append(np.random.randn(self.n[l], self.n[l - 1]))
             self.theta.append(np.random.randn(self.n[l], 1))
-        self.d_w_prev = [None]
-        self.d_theta_prev = [None]
+        self.d_w_prev = [0.0]
+        self.d_theta_prev = [0.0]
         for l in range(1, self.L):
             self.d_w_prev.append(np.zeros((self.n[l], self.n[l - 1])))
             self.d_theta_prev.append(np.zeros((self.n[l], 1)))
 
-        self.h = [None] * self.L
-        self.xi = [None] * self.L
-        self.delta = [None] * self.L
-        self.d_w = [None] * self.L
-        self.d_theta = [None] * self.L
+        self.h = [0.0] * self.L
+        self.xi = [0.0] * self.L
+        self.delta = [0.0] * self.L
+        self.d_w = [0.0] * self.L
+        self.d_theta = [0.0] * self.L
         self.activation_function, self.activation_derivative = self.get_activation_function(self.fact)
         self.training_errors = []
         self.validation_errors = []
@@ -73,6 +73,13 @@ class NeuralNet:
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
         return np.array(self.training_errors), np.array(self.validation_errors)
+
+    def update_weights(self):
+        for l in range(1, self.L):
+            self.w[l] += self.d_w[l]
+            self.theta[l] += self.d_theta[l]
+            self.d_w_prev[l] = self.d_w[l]
+            self.d_theta_prev[l] = self.d_theta[l]
 
     def get_activation_function(self, name):
         if name == 'sigmoid':
@@ -130,3 +137,4 @@ if __name__ == "__main__":
         validation_split=0.2
     )
     nn.oss_epochs()
+    nn.update_weights()
