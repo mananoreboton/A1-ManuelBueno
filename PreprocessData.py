@@ -97,7 +97,7 @@ class PreprocessData:
         """
         # Pipelines for individual columns
         pipelines = {
-            'date': make_pipeline(ConvertDateToDays(date_column='date')),
+            'date': make_pipeline(ConvertDateToDays(date_column='date'), MinMaxScaler()),
             'bedrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
@@ -111,16 +111,16 @@ class PreprocessData:
                 ('scale', MinMaxScaler()),
             ]),
             'floors': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
             ]),
             'waterfront': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
             ]),
             'view': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
+                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
             ]),
             'condition': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="ignore")),
+                ('scale', MinMaxScaler()),
             ]),
               'grade': Pipeline([
                 ('scale', MinMaxScaler()),
@@ -189,12 +189,12 @@ class PreprocessData:
         print(f"Test matrix saved to {test_path}")
         print(f"Transformer saved to {transformer_path}")
 
-    def select_and_analyze_dataset(self):
+    def select_and_analyze_dataset(self, size=2000):
         """
         Task 1: Load, preprocess, and analyze the House Sales dataset.
         """
         df = self.read_csv_file()
-        df = self.truncate_dataframe(df)
+        df = self.truncate_dataframe(df, size)
         df = self.filter_features(df)
         df = self.drop_missing_values(df)
         df = self.drop_outliers(df)
@@ -228,23 +228,20 @@ class ConvertDateToDays(BaseEstimator, TransformerMixin):
         self.min_date = None
 
     def fit(self, X, y=None):
-        # Store the minimum date during fit
         X = X.copy()
         self.min_date = pd.to_datetime(X[self.date_column], format='%Y%m%dT000000').min()
         return self
 
     def transform(self, x_to_transform):
-        # Convert dates to days since the minimum date
         x = x_to_transform.copy()
         x[self.date_column] = pd.to_datetime(x[self.date_column], format='%Y%m%dT000000')
-        x[f'days_since_{self.date_column}'] = (x[self.date_column] - self.min_date).dt.days
-        x.drop(columns=[self.date_column], inplace=True)  # Drop the original date column
+        x[f'days_since_first_{self.date_column}'] = (x[self.date_column] - self.min_date).dt.days
+        x.drop(columns=[self.date_column], inplace=True)
         return x
 
     def get_feature_names_out(self, input_features=None):
-        return [f"{self.date_column}_publication"]
-    
-# If this script is executed directly, demonstrate the class functionality.
+        return [f'days_since_first_{self.date_column}']
+
 if __name__ == "__main__":
     preprocessData = PreprocessData()
     preprocessData.main()
