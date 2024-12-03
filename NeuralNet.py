@@ -12,7 +12,7 @@ class NeuralNet:
         self.fact = activation_function
         self.validation_split = validation_split
 
-        # Online BP algorithm: 2- Initialize all weights and thresholds randomly
+        # Online BP algorithm: L2 - Initialize all weights and thresholds randomly
         self.w = [None]
         self.theta = [None]
         for l in range(1, self.L):
@@ -35,31 +35,39 @@ class NeuralNet:
 
         print("NeuralNet initialized.")
 
-    def fit(self, X=None, y=None):
+    def fit(self, X, y):
         """
         Subtask 2.1: Use training and validation data to fit neural network
         """
+        num_samples = X.shape[0]
+        indices = np.arange(num_samples)
+        np.random.shuffle(indices)
+        split_idx = int(num_samples * (1 - self.validation_split))
+        train_idx = indices[:split_idx]
+        val_idx = indices[split_idx:]
 
-        # Online BP algorithm: 1- Scale input and/or output patterns, if needed
-        X_train, X_val = [[0], [0]]
-        y_train, y_val = [[0], [0]]
+        X_train, y_train = X[train_idx], y[train_idx]
+        X_val, y_val = X[val_idx], y[val_idx]
+        num_train_samples = X_train.shape[0]
 
-        # TODO: For epoch = 1 To num epochs
+        # Online BP algorithm: L3 - For epoch = 1 To num epochs
         for epoch in range(self.n_epochs):
+            indices = np.arange(num_train_samples)
+            np.random.shuffle(indices)
+            X_train_shuffled = X_train[indices]
+            y_train_shuffled = y_train[indices]
 
-            # TODO: For pat = 1 To num training patterns
-            indices = list(range(len(X_train)))
-            random.shuffle(indices)
-            for i in indices:
+            # Online BP algorithm: L4 - For pat = 1 To num training patterns
+            for pat in range(num_train_samples):
                 pass
 
-            # TODO: Choose a random pattern (xμ, zμ) of the training set
-            # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
-            # TODO: Back−propagate the error for this pattern
-            # TODO: Update the weights and thresholds
-            # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
-            # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
-        pass
+                # TODO: Choose a random pattern (xμ, zμ) of the training set
+                # TODO: Feed−forward propagation of pattern xμ to obtain the output o(xμ)
+                # TODO: Back−propagate the error for this pattern
+                # TODO: Update the weights and thresholds
+                # TODO: Feed−forward all training patterns and calculate their prediction quadratic error
+                # TODO: Feed−forward all validation patterns and calculate their prediction quadratic error
+            pass
 
     def predict(self, X):
         """
@@ -107,14 +115,14 @@ class NeuralNet:
             raise ValueError('Unsupported activation function name')
         return activation, derivative
 
-    def main(self):
+    def main(self, X_prediction, y_prediction):
         """
         Main function to execute all subtasks of Neural Network with Back-Propagation (BP).
         """
         print("Executing all subtasks of Implementation of BP...")
 
         # Task 2: Implementation of BP
-        self.fit()
+        self.fit(X_prediction, y_prediction)
 
 def readFile(filepath='./data/transformed_train_matrix.csv'):
     data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
@@ -136,5 +144,4 @@ if __name__ == "__main__":
         activation_function='tanh',
         validation_split=0.2
     )
-    nn.oss_epochs()
-    nn.update_weights()
+    nn.main(X_in, y_in)
