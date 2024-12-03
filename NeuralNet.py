@@ -70,7 +70,15 @@ class NeuralNet:
                 self.backpropagate(z_mu)
                 # Online BP algorithm: L8 - Update the weights and thresholds
                 self.update_weights()
-                print(z_mu)
+
+            # Online BP algorithm: L10 - Feed−forward all training patterns and calculate their prediction quadratic error
+            train_error = self.calculate_error(X_train, y_train)
+            # Online BP algorithm: L11 - Feed−forward all validation patterns and calculate their prediction quadratic error
+            val_error = self.calculate_error(X_val, y_val)
+            self.training_errors.append(train_error)
+            self.validation_errors.append(val_error)
+
+            print(f'Epoc {epoch + 1}/{self.n_epochs}, Train Error: {train_error}, Validation Error: {val_error}')
 
     def predict(self, X):
         """
@@ -84,6 +92,17 @@ class NeuralNet:
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
         return np.array(self.training_errors), np.array(self.validation_errors)
+
+    def calculate_error(self, X, y):
+        num_samples = X.shape[0]
+        total_error = 0
+        for i in range(num_samples):
+            x = X[i].reshape(-1, 1)
+            target = y[i].reshape(-1, 1)
+            self.feedforward(x)
+            output = self.xi[-1]
+            total_error += np.sum((output - target) ** 2)
+        return total_error / num_samples
 
     def feedforward(self, x):
         self.xi[0] = x
