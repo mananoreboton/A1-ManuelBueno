@@ -33,7 +33,7 @@ class NeuralNet:
         self.training_errors = []
         self.validation_errors = []
 
-        print("NeuralNet initialized.")
+        print(f"NeuralNet initialized with self.L = '{self.L}', self.n = '{self.n}', self.n_epochs = '{self.n_epochs}', self.learning_rate = '{self.learning_rate}', self.momentum = '{self.momentum}', self.fact = '{self.fact}', self.validation_split = '{self.validation_split}'")
 
     def fit(self, X, y):
         """
