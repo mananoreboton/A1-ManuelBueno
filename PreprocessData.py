@@ -219,9 +219,10 @@ class PreprocessData:
         plt.show()
 
     def read_transformed_data_from_file(self, filepath='./data/transformed_train_matrix.csv'):
-        data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
-        return data
-
+        data_from_file = np.genfromtxt(filepath, delimiter=',', skip_header=1)
+        X_in = data_from_file[:, :-1]
+        y_in = data_from_file[:, -1]
+        return X_in, y_in
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):
     """

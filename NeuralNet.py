@@ -172,21 +172,17 @@ class NeuralNet:
         for pred, y_pred in zip(predictions, y_prediction):
             print(f"Prediction: {pred}, Expected Prediction: {y_pred}")
 
-        training_errors, validation_errors = nn.oss_epochs()
+        training_errors, validation_errors = self.oss_epochs()
         for train_err, val_err in zip(training_errors, validation_errors):
             print(f"Training Error: {train_err}, Validation Error: {val_err}")
 
 if __name__ == "__main__":
     preprocessData = PreprocessData()
     preprocessData.select_and_analyze_dataset()
-    data_train = preprocessData.read_transformed_data_from_file()
-    X_in = data_train[:, :-1]
-    y_in = data_train[:, -1]
-    data_test = preprocessData.read_transformed_data_from_file('./data/transformed_test_matrix.csv')
-    X_in_prediction = data_test[:, :-1]
-    y_in_prediction = data_test[:, -1]
+    X_in, y_in = preprocessData.read_transformed_data_from_file()
+    X_in_prediction, y_in_prediction = preprocessData.read_transformed_data_from_file('./data/transformed_test_matrix.csv')
 
-    nn = NeuralNet(
+    neural_net = NeuralNet(
         L=3,
         n= [np.shape(X_in)[1], 10, 1],
         n_epochs=100,
@@ -195,4 +191,4 @@ if __name__ == "__main__":
         activation_function='tanh',
         validation_split=0.2
     )
-    nn.main(X_in, y_in, X_in_prediction, y_in_prediction)
+    neural_net.main(X_in, y_in, X_in_prediction, y_in_prediction)
