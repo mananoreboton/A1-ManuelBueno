@@ -100,6 +100,7 @@ class NeuralNet:
         """
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
+        print(f"Executing loss_epochs()")
         return np.array(self.training_errors), np.array(self.validation_errors)
 
     def calculate_error(self, X, y):
