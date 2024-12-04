@@ -39,6 +39,7 @@ class NeuralNet:
         """
         Subtask 2.1: Use training and validation data to fit neural network
         """
+        print(f"Executing fit(X, y)")
         num_samples = X.shape[0]
         indices = np.arange(num_samples)
         np.random.shuffle(indices)
