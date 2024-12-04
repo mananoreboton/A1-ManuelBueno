@@ -176,17 +176,13 @@ class NeuralNet:
         for train_err, val_err in zip(training_errors, validation_errors):
             print(f"Training Error: {train_err}, Validation Error: {val_err}")
 
-def readFile(filepath='./data/transformed_train_matrix.csv'):
-    data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
-    return data
-
 if __name__ == "__main__":
     preprocessData = PreprocessData()
     preprocessData.select_and_analyze_dataset()
-    data_train = readFile()
+    data_train = preprocessData.read_transformed_data_from_file()
     X_in = data_train[:, :-1]
     y_in = data_train[:, -1]
-    data_test = readFile('./data/transformed_test_matrix.csv')
+    data_test = preprocessData.read_transformed_data_from_file('./data/transformed_test_matrix.csv')
     X_in_prediction = data_test[:, :-1]
     y_in_prediction = data_test[:, -1]
 

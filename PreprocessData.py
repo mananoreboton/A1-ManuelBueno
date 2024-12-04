@@ -10,6 +10,7 @@ from pandas.plotting import scatter_matrix
 import pandas as pd
 import joblib
 import os
+import numpy as np
 
 selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
                      'floors', 'waterfront', 'view', 'condition', 'grade',
@@ -216,6 +217,10 @@ class PreprocessData:
         df_subset = dfc[columns_to_plot]
         scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
         plt.show()
+
+    def read_transformed_data_from_file(self, filepath='./data/transformed_train_matrix.csv'):
+        data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
+        return data
 
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):
