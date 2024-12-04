@@ -96,7 +96,7 @@ class NeuralNet:
             outputs.append(output)
         return np.array(outputs)
 
-    def oss_epochs(self):
+    def loss_epochs(self):
         """
         Subtask 2.3: Return the evolution of the training and validation errors for each epoch
         """
@@ -174,7 +174,7 @@ class NeuralNet:
         for pred, y_pred in zip(predictions, y_prediction):
             print(f"Prediction: {pred}, Expected Prediction: {y_pred}")
 
-        training_errors, validation_errors = self.oss_epochs()
+        training_errors, validation_errors = self.loss_epochs()
         for train_err, val_err in zip(training_errors, validation_errors):
             print(f"Training Error: {train_err}, Validation Error: {val_err}")
 
