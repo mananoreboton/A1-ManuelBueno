@@ -85,6 +85,7 @@ class NeuralNet:
         """
         Subtask 2.2: Use test data to predict labels
         """
+        print(f"Executing predict(X)")
         # Online BP algorithm: L14 - Feed−forward all test pattern
         num_samples = X.shape[0]
         outputs = []
