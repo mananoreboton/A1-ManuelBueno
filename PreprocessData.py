@@ -33,7 +33,7 @@ class PreprocessData:
 
         # self.show_data(transformer.get_feature_names_out(), test_array_transformed, Y)
 
-    def read_csv_file(self, filepath="./kc_house_data.csv"):
+    def read_csv_file(self, filepath="./data/kc_house_data.csv"):
         """
         Subtask 1.1: Read the CSV file into a pandas DataFrame.
         """
