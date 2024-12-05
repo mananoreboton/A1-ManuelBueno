@@ -1,7 +1,7 @@
 # activity1.py
 
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, FunctionTransformer
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split
@@ -99,9 +99,7 @@ class PreprocessData:
         # Pipelines for individual columns
         pipelines = {
             'date': make_pipeline(ConvertDateToDays(date_column='date'), MinMaxScaler()),
-            'bedrooms': Pipeline([
-                ('scale', MinMaxScaler()),
-            ]),
+            'bedrooms': make_pipeline(FunctionTransformer(np.log1p, feature_names_out="one-to-one"), MinMaxScaler()),
             'bathrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
