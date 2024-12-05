@@ -1,5 +1,3 @@
-# activity1.py
-
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, FunctionTransformer
 from sklearn.pipeline import Pipeline, make_pipeline
@@ -221,10 +219,12 @@ class PreprocessData:
         scatter_matrix(df_subset, figsize=(10, 10), alpha=0.8, diagonal='hist')
         plt.show()
 
-    def read_transformed_data_from_file(self, filepath='./data/transformed_train_matrix.csv'):
-        data_from_file = np.genfromtxt(filepath, delimiter=',', skip_header=1)
-        X_in = data_from_file[:, :-1]
-        y_in = data_from_file[:, -1]
+    def read_transformed_data_from_file(self, filepath='./data/transformed_train_matrix.csv', target_name='price__price'):
+        data_from_file = pd.read_csv(filepath, header=0)
+
+        y_in = data_from_file[target_name].to_numpy()
+        X_in = data_from_file.drop(target_name, axis=1).to_numpy()
+        print(f"Reading X and y data from file '{filepath}' with target '{target_name}'")
         return X_in, y_in
 
 class ConvertDateToDays(BaseEstimator, TransformerMixin):

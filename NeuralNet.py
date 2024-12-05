@@ -1,4 +1,3 @@
-import random
 from PreprocessData import PreprocessData
 import numpy as np
 
@@ -43,12 +42,17 @@ class NeuralNet:
         num_samples = X.shape[0]
         indices = np.arange(num_samples)
         np.random.shuffle(indices)
-        split_idx = int(num_samples * (1 - self.validation_split))
-        train_idx = indices[:split_idx]
-        val_idx = indices[split_idx:]
 
-        X_train, y_train = X[train_idx], y[train_idx]
-        X_val, y_val = X[val_idx], y[val_idx]
+        X_train, y_train = X, y
+        X_val, y_val = None, None
+        if self.validation_split > 0:
+            split_idx = int(num_samples * (1 - self.validation_split))
+            train_idx = indices[:split_idx]
+            val_idx = indices[split_idx:]
+
+            X_train, y_train = X[train_idx], y[train_idx]
+            X_val, y_val = X[val_idx], y[val_idx]
+
         num_train_samples = X_train.shape[0]
 
         # Online BP algorithm: L3 - For epoch = 1 To num epochs
@@ -104,6 +108,8 @@ class NeuralNet:
         return np.array(self.training_errors), np.array(self.validation_errors)
 
     def calculate_error(self, X, y):
+        if X is None or y is None:
+            return None
         num_samples = X.shape[0]
         total_error = 0
         for i in range(num_samples):
