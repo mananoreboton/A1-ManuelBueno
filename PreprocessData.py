@@ -11,6 +11,8 @@ import pandas as pd
 import joblib
 import os
 import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.metrics.pairwise import rbf_kernel
 
 selected_features = ['date', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot',
                      'floors', 'waterfront', 'view', 'condition', 'grade',
@@ -137,10 +139,13 @@ class PreprocessData:
                 ('scale', MinMaxScaler()),
             ])
         }
+        feature_transformers = [(col, pipelines[col], [col]) for col in pipelines]
+        cluster_simil = ClusterSimilarity(n_clusters=10, gamma=1., random_state=42)
+        feature_transformers.append(("geo", cluster_simil, ["lat", "long"]))
 
         # Combine all pipelines into a ColumnTransformer
         transformer = ColumnTransformer(
-            transformers=[(col, pipelines[col], [col]) for col in pipelines],
+            transformers=feature_transformers,
             remainder='drop'  # Drop columns not explicitly specified
         )
         print(f"Creating ColumnTransformer")
@@ -160,7 +165,7 @@ class PreprocessData:
         """
         train_data_transformed = transformer.transform(train_data)
         test_data_transformed = transformer.transform(test_data)
-        print(f"Transforming train_data and test_data")
+        print(f"Transforming train_data and test_data with columns: '{transformer.get_feature_names_out()}'")
         return train_data_transformed, test_data_transformed
 
     def save_transformed_data(self, transformed_train_matrix, transformed_test_matrix, transformer, output_dir='./data'):
@@ -245,6 +250,28 @@ class ConvertDateToDays(BaseEstimator, TransformerMixin):
 
     def get_feature_names_out(self, input_features=None):
         return [f'days_since_first_{self.date_column}']
+
+class ClusterSimilarity(BaseEstimator, TransformerMixin):
+    """
+    Custom transformer to convert the latitude and longitude columns into
+    the proximity to hot spots.
+    """
+    def __init__(self, n_clusters=10, gamma=1.0, random_state=None):
+        self.n_clusters = n_clusters
+        self.gamma = gamma
+        self.random_state = random_state
+
+    def fit(self, X, y=None, sample_weight=None):
+        self.kmeans_ = KMeans(self.n_clusters, n_init=10,
+                              random_state=self.random_state)
+        self.kmeans_.fit(X, sample_weight=sample_weight)
+        return self  # always return self!
+
+    def transform(self, X):
+        return rbf_kernel(X, self.kmeans_.cluster_centers_, gamma=self.gamma)
+
+    def get_feature_names_out(self, names=None):
+        return [f"cluster_{i}_coordinates" for i in range(self.n_clusters)]
 
 if __name__ == "__main__":
     preprocessData = PreprocessData()
