@@ -1,0 +1,745 @@
+/Users/mrbueno/code/nec/nec_a1/.venv/bin/python /Users/mrbueno/code/nec/nec_a1/PredictorExecutor.py
+PreprocessData initialized.
+Reading X and y data from file './data/transformed_train_matrix.csv' with target 'price__price'
+NeuralNet initialized with self.L = '3', self.n = '[32, 5, 1]', self.n_epochs = '100', self.learning_rate = '0.001', self.momentum = '0.85', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '0' in './data/cross_validation_with_hyperparameters_0_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 12, 5, 1]', self.n_epochs = '150', self.learning_rate = '0.005', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '1' in './data/cross_validation_with_hyperparameters_1_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '2' in './data/cross_validation_with_hyperparameters_2_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '3' in './data/cross_validation_with_hyperparameters_3_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.9', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '4' in './data/cross_validation_with_hyperparameters_4_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.001', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '5' in './data/cross_validation_with_hyperparameters_5_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '6' in './data/cross_validation_with_hyperparameters_6_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 32, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '7' in './data/cross_validation_with_hyperparameters_7_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 44, 7, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '8' in './data/cross_validation_with_hyperparameters_8_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '9' in './data/cross_validation_with_hyperparameters_9_neg_mean_absolute_error.csv'
+NeuralNet initialized with self.L = '3', self.n = '[32, 5, 1]', self.n_epochs = '180', self.learning_rate = '0.005', self.momentum = '0.85', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '10' in './data/cross_validation_with_hyperparameters_10_neg_mean_absolute_error.csv'
+[Number of Layers                                                       3
+Layer Structure                                               [32, 5, 1]
+Num Epochs                                                           100
+Learning Rate                                                      0.001
+Momentum                                                            0.85
+Activation Function                                                 relu
+Scores                 [-0.06121677049870427, -0.059521049180327815, ...
+Mean                                                           -0.061519
+Variance                                                         0.00002
+Name: 0, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 12, 5, 1]
+Num Epochs                                                           150
+Learning Rate                                                      0.005
+Momentum                                                            0.95
+Activation Function                                                 tanh
+Scores                 [-0.04681020199486504, -0.030843883363651747, ...
+Mean                                                            -0.03285
+Variance                                                        0.000051
+Name: 1, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                                 tanh
+Scores                 [-0.037573959057210955, -0.024085919551963073,...
+Mean                                                           -0.029259
+Variance                                                        0.000149
+Name: 2, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                                 relu
+Scores                 [-0.05667559344262289, -0.059521049180327815, ...
+Mean                                                           -0.061065
+Variance                                                        0.000023
+Name: 3, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                             0.9
+Activation Function                                              sigmoid
+Scores                 [-0.01734742377711289, -0.01767149465299108, -...
+Mean                                                           -0.020258
+Variance                                                        0.000019
+Name: 4, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                      0.001
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.02878819912816141, -0.030006204547574, -0....
+Mean                                                           -0.030362
+Variance                                                        0.000015
+Name: 5, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.019059066628808102, -0.020194244856746323,...
+Mean                                                           -0.020777
+Variance                                                        0.000019
+Name: 6, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 32, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.015723534413495846, -0.01669040558869188, ...
+Mean                                                           -0.016714
+Variance                                                        0.000006
+Name: 7, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 44, 7, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.014666266569682477, -0.01712536489263133, ...
+Mean                                                           -0.018446
+Variance                                                        0.000013
+Name: 8, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.0199620709945205, -0.018678324481468344, -...
+Mean                                                           -0.019087
+Variance                                                        0.000005
+Name: 9, dtype: object, Number of Layers                                                       3
+Layer Structure                                               [32, 5, 1]
+Num Epochs                                                           180
+Learning Rate                                                      0.005
+Momentum                                                            0.85
+Activation Function                                                 relu
+Scores                 [-0.05667559344262289, -0.059521049180327815, ...
+Mean                                                           -0.061065
+Variance                                                        0.000023
+Name: 10, dtype: object]
+NeuralNet initialized with self.L = '3', self.n = '[32, 5, 1]', self.n_epochs = '100', self.learning_rate = '0.001', self.momentum = '0.85', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '0' in './data/cross_validation_with_hyperparameters_0_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 12, 5, 1]', self.n_epochs = '150', self.learning_rate = '0.005', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '1' in './data/cross_validation_with_hyperparameters_1_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '2' in './data/cross_validation_with_hyperparameters_2_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '3' in './data/cross_validation_with_hyperparameters_3_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.9', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '4' in './data/cross_validation_with_hyperparameters_4_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.001', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '5' in './data/cross_validation_with_hyperparameters_5_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '6' in './data/cross_validation_with_hyperparameters_6_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 32, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '7' in './data/cross_validation_with_hyperparameters_7_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 44, 7, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '8' in './data/cross_validation_with_hyperparameters_8_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '250', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'sigmoid', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '9' in './data/cross_validation_with_hyperparameters_9_neg_mean_squared_error.csv'
+NeuralNet initialized with self.L = '3', self.n = '[32, 5, 1]', self.n_epochs = '180', self.learning_rate = '0.005', self.momentum = '0.85', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '10' in './data/cross_validation_with_hyperparameters_10_neg_mean_squared_error.csv'
+[Number of Layers                                                       3
+Layer Structure                                               [32, 5, 1]
+Num Epochs                                                           100
+Learning Rate                                                      0.001
+Momentum                                                            0.85
+Activation Function                                                 relu
+Scores                 [-0.004617248908074169, -0.005150769729668362,...
+Mean                                                           -0.006527
+Variance                                                        0.000011
+Name: 0, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 12, 5, 1]
+Num Epochs                                                           150
+Learning Rate                                                      0.005
+Momentum                                                            0.95
+Activation Function                                                 tanh
+Scores                 [-0.001006043002522876, -0.0013741203387470982...
+Mean                                                           -0.002669
+Variance                                                        0.000007
+Name: 1, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                                 tanh
+Scores                 [-0.0013454471027473838, -0.000773215233353171...
+Mean                                                           -0.002019
+Variance                                                        0.000007
+Name: 2, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                                 relu
+Scores                 [-0.004617248908074169, -0.005150769729668362,...
+Mean                                                           -0.006527
+Variance                                                        0.000011
+Name: 3, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                             0.9
+Activation Function                                              sigmoid
+Scores                 [-0.0007732181823159005, -0.000724838898235663...
+Mean                                                            -0.00173
+Variance                                                        0.000005
+Name: 4, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                      0.001
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.001276178086659812, -0.0013788513546641413...
+Mean                                                           -0.002584
+Variance                                                        0.000008
+Name: 5, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.0006845580606683493, -0.000552658563957852...
+Mean                                                           -0.001249
+Variance                                                        0.000003
+Name: 6, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 32, 5, 1]
+Num Epochs                                                           350
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.0006803523362978594, -0.000801457817462963...
+Mean                                                           -0.001351
+Variance                                                        0.000003
+Name: 7, dtype: object, Number of Layers                                                       4
+Layer Structure                                           [32, 44, 7, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.0006230932962381759, -0.000699998231615136...
+Mean                                                           -0.001143
+Variance                                                        0.000002
+Name: 8, dtype: object, Number of Layers                                                       5
+Layer Structure                                       [32, 44, 12, 5, 1]
+Num Epochs                                                           250
+Learning Rate                                                       0.01
+Momentum                                                            0.95
+Activation Function                                              sigmoid
+Scores                 [-0.0007256071810173902, -0.000643098946177175...
+Mean                                                             -0.0017
+Variance                                                        0.000005
+Name: 9, dtype: object, Number of Layers                                                       3
+Layer Structure                                               [32, 5, 1]
+Num Epochs                                                           180
+Learning Rate                                                      0.005
+Momentum                                                            0.85
+Activation Function                                                 relu
+Scores                 [-0.0014249277338905424, -0.002482440771017894...
+Mean                                                           -0.003007
+Variance                                                        0.000009
+Name: 10, dtype: object]
+NeuralNet initialized with self.L = '3', self.n = '[32, 5, 1]', self.n_epochs = '100', self.learning_rate = '0.001', self.momentum = '0.85', self.fact = 'relu', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '0' in './data/cross_validation_with_hyperparameters_0_neg_mean_absolute_percentage_error.csv'
+NeuralNet initialized with self.L = '4', self.n = '[32, 12, 5, 1]', self.n_epochs = '150', self.learning_rate = '0.005', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Saving Cross Validation ccore list for case '1' in './data/cross_validation_with_hyperparameters_1_neg_mean_absolute_percentage_error.csv'
+NeuralNet initialized with self.L = '5', self.n = '[32, 44, 12, 5, 1]', self.n_epochs = '350', self.learning_rate = '0.01', self.momentum = '0.95', self.fact = 'tanh', self.validation_split = '0'
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
+Executing predict(X)
+Executing fit(X, y)
