@@ -103,12 +103,8 @@ class PreprocessData:
             'bathrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
-            'sqft_living': Pipeline([
-                ('scale', MinMaxScaler()),
-            ]),
-            'sqft_lot': Pipeline([
-                ('scale', MinMaxScaler()),
-            ]),
+            'sqft_living': make_pipeline(FunctionTransformer(np.log1p, feature_names_out="one-to-one"), MinMaxScaler()),
+            'sqft_lot': make_pipeline(FunctionTransformer(np.log1p, feature_names_out="one-to-one"), MinMaxScaler()),
             'floors': Pipeline([
                 ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
             ]),
@@ -138,7 +134,7 @@ class PreprocessData:
             ])
         }
         feature_transformers = [(col, pipelines[col], [col]) for col in pipelines]
-        cluster_simil = ClusterSimilarity(n_clusters=10, gamma=1., random_state=42)
+        cluster_simil = ClusterSimilarity(n_clusters=4, gamma=1., random_state=31)
         feature_transformers.append(("geo", cluster_simil, ["lat", "long"]))
 
         # Combine all pipelines into a ColumnTransformer

@@ -5,7 +5,7 @@ import subprocess
 def start_jupyter_notebook(project_path = './'):
     print(f"Starting Jupyter notebook in folder: {project_path}")
     os.chdir(project_path)
-    subprocess.run(["jupyter", "notebook", "PredictionsComparison.ipynb", "--port", "2205"])
+    subprocess.run(["jupyter", "notebook", "A1-ManuelBueno.ipynb", "--port", "2205"])
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
