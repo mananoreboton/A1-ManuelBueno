@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     p = PreprocessData()
     X_in, y_in = p.read_transformed_data_from_file()
-    X_in, y_in = X_in[:1000], y_in[:1000]
+    X_in, y_in = X_in[:10], y_in[:10]
 
     predictor_executor = PredictorExecutor()
     scores_by_hyperparameters = predictor_executor.cross_validation(

@@ -1,6 +1,4 @@
 from sklearn.base import BaseEstimator, RegressorMixin
-from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
-from sklearn.metrics import mean_absolute_error
 
 class NeuralNetPredictor(BaseEstimator, RegressorMixin):
     """
