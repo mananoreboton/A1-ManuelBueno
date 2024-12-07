@@ -4,6 +4,7 @@ from PreprocessData import PreprocessData
 from sklearn.model_selection import cross_val_score
 import pandas as pd
 import numpy as np
+from tabulate import tabulate
 
 class PredictorExecutor:
     def save_cross_validation_score_list(self, case, scores, scoring):
@@ -54,7 +55,7 @@ if __name__ == "__main__":
         scoring='neg_mean_absolute_error',
         folds=10
     )
-    print(scores_by_hyperparameters)
+    print(tabulate(scores_by_hyperparameters, headers='keys', tablefmt='psql'))
 
     predictor_executor = PredictorExecutor()
     scores_by_hyperparameters = predictor_executor.cross_validation(
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         scoring='neg_mean_squared_error',
         folds=10
     )
-    print(scores_by_hyperparameters)
+    print(tabulate(scores_by_hyperparameters, headers='keys', tablefmt='psql'))
 
     predictor_executor = PredictorExecutor()
     scores_by_hyperparameters = predictor_executor.cross_validation(
@@ -74,4 +75,4 @@ if __name__ == "__main__":
         scoring='neg_mean_absolute_percentage_error',
         folds=10
     )
-    print(scores_by_hyperparameters)
+    print(tabulate(scores_by_hyperparameters, headers='keys', tablefmt='psql'))
