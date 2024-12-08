@@ -110,7 +110,7 @@ class PreprocessData:
                 ('scale', MinMaxScaler()),
             ]),
             'floors': Pipeline([
-                ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
+                ('scale', MinMaxScaler()),
             ]),
             'waterfront': Pipeline([
                 ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
@@ -262,10 +262,9 @@ class ClusterSimilarity(BaseEstimator, TransformerMixin):
         self.random_state = random_state
 
     def fit(self, X, y=None, sample_weight=None):
-        self.kmeans_ = KMeans(self.n_clusters, n_init=10,
-                              random_state=self.random_state)
+        self.kmeans_ = KMeans(self.n_clusters, n_init=10, random_state=self.random_state)
         self.kmeans_.fit(X, sample_weight=sample_weight)
-        return self  # always return self!
+        return self
 
     def transform(self, X):
         return rbf_kernel(X, self.kmeans_.cluster_centers_, gamma=self.gamma)
