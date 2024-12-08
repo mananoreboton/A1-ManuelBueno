@@ -48,7 +48,7 @@ class PreprocessData:
         """
         print(f"Truncating data randomly to {rows} rows")
         return df.sample(n=rows, random_state=31).reset_index(drop=True)
-    
+
     def filter_features(self, df, required_features=None):
         """
         Subtask 1.3: Keep only specified columns in the DataFrame.
@@ -57,7 +57,7 @@ class PreprocessData:
             required_features = selected_features
         print(f"Selecting this columns from the data: {selected_features}")
         return df[required_features]
-    
+
     def drop_missing_values(self, df, columns=None):
         """
         Subtask 1.4: Remove rows with missing values in the specified columns.
@@ -103,8 +103,12 @@ class PreprocessData:
             'bathrooms': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
-            'sqft_living': make_pipeline(FunctionTransformer(np.log1p, feature_names_out="one-to-one"), MinMaxScaler()),
-            'sqft_lot': make_pipeline(FunctionTransformer(np.log1p, feature_names_out="one-to-one"), MinMaxScaler()),
+            'sqft_living': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
+            'sqft_lot': Pipeline([
+                ('scale', MinMaxScaler()),
+            ]),
             'floors': Pipeline([
                 ('encode', OneHotEncoder(drop='if_binary', sparse_output=False, handle_unknown="error")),
             ]),
@@ -117,7 +121,7 @@ class PreprocessData:
             'condition': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
-              'grade': Pipeline([
+            'grade': Pipeline([
                 ('scale', MinMaxScaler()),
             ]),
             'yr_built': Pipeline([
@@ -134,7 +138,7 @@ class PreprocessData:
             ])
         }
         feature_transformers = [(col, pipelines[col], [col]) for col in pipelines]
-        cluster_simil = ClusterSimilarity(n_clusters=4, gamma=1., random_state=31)
+        cluster_simil = ClusterSimilarity(n_clusters=10, gamma=1., random_state=42)
         feature_transformers.append(("geo", cluster_simil, ["lat", "long"]))
 
         # Combine all pipelines into a ColumnTransformer
